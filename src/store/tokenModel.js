@@ -9,7 +9,8 @@ export default {
 		refresh: false,
 		username: null,
 		fail: false,
-		url: "https://iraqi-student.herokuapp.com/"
+		url:
+			"https://tranquil-cove-12072.herokuapp.com/https://iraqi-student.herokuapp.com/"
 	},
 
 	mutations: {
