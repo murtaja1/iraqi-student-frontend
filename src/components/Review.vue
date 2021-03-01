@@ -125,7 +125,7 @@
 				>ارسال</b-button
 			>
 		</b-form>
-		<b-form v-if="!refresh" @submit.prevent="formSumbit">
+		<!-- <b-form v-if="!refresh" @submit.prevent="formSumbit">
 			<b-form-group id="input-group-1" label="الاسم:" label-for="input-1">
 				<b-form-input
 					id="input-1"
@@ -151,10 +151,11 @@
 			<b-button variant="primary" class="btn-posit" type="submit"
 				>ارسال</b-button
 			>
-		</b-form>
+		</b-form> -->
 	</div>
 </template>
 
+//
 <script>
 import { mapState } from "vuex"
 import shared from "../shared"
