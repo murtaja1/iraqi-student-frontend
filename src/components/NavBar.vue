@@ -57,7 +57,7 @@
 
 <script>
 import { mapState } from "vuex"
-import Search from "./search.vue"
+import Search from "./Search"
 export default {
 	components: {
 		Search
