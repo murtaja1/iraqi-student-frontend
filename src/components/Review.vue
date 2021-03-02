@@ -118,8 +118,7 @@
 
 			<b-button
 				variant="primary"
-				v-if="refresh"
-				:disabled="text === ''"
+				:disabled="!refresh || text === ''"
 				class="btn-posit"
 				type="submit"
 				>ارسال</b-button
@@ -295,7 +294,6 @@ export default {
 
 	mounted() {
 		this.fetchReview()
-		// this.ShowCount = this.soruce
 	}
 }
 </script>
