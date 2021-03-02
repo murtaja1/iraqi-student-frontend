@@ -133,6 +133,9 @@
 			/></b-container>
 		</div>
 	</b-container>
+	<div class="mt-5 d-flex justify-content-center" v-else>
+		<b-spinner style="width: 5rem; height: 5rem;" variant="primary"></b-spinner>
+	</div>
 </template>
 
 <script>
@@ -166,7 +169,6 @@ export default {
 		}
 	},
 	mounted() {
-		// a huge bug in here, what if it is news!? why fetch collage or put side.....
 		;(this.name = this.$route.params.name),
 			shared.fetchData(this.name + "/" + this.$route.params.id).then((res) => {
 				this.soruce = res
@@ -177,14 +179,16 @@ export default {
 					res.collages_num,
 					res.students_num
 				]
-				shared
-					.fetchData(
-						`collages?university__name=${this.soruce.name}&page_size=${this.soruce.collages_num}`
-					)
-					.then((res) => {
-						// console.log(res.results[0].name)
-						this.collages = res.results
-					})
+				if (this.name !== "news") {
+					console.log("dd")
+					shared
+						.fetchData(
+							`collages?university__name=${this.soruce.name}&page_size=${this.soruce.collages_num}`
+						)
+						.then((res) => {
+							this.collages = res.results
+						})
+				}
 			})
 	}
 }

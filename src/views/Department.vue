@@ -5,32 +5,6 @@
 		<b-container fluid-md class="col-md-8">
 			<VueShowdown :markdown="soruce.description" flavor="github" />
 		</b-container>
-
-		<!-- <h6 v-b-toggle.collapse-3 @click="showCollages = !showCollages">
-      <b-icon :icon="showLink[1]"></b-icon>
-      منهاج هندسة الحاسبات
-      <small>
-        <b-link> اظغط {{ showLink[0] }} المنهاج </b-link>
-      </small>
-    </h6>
-
-    <hr class="col-sm-4 col-md-2 col-xl-2 col-8" align="right" />
-    <b-collapse id="collapse-3" class="mb-2">
-      <b-form-row>
-        <b-col order="1" class="col-md-4 col-12 mb-2" v-for="n in 6" :key="n">
-          <b-list-group>
-            <b-list-group-item
-              v-for="i in 5"
-              :key="i"
-              :variant="varints[i - 1]"
-            >
-              {{ n }}باسم مدرسة الحقوق</b-list-group-item
-            >
-          </b-list-group>
-        </b-col>
-      </b-form-row>
-    </b-collapse> -->
-
 		<h6>معلومات اضافية حول القسم:</h6>
 		<hr class="col-sm-4 col-md-2 col-xl-2 col-6" align="right" />
 		<rating
@@ -40,7 +14,6 @@
 			sub_url="department_ratings?building__id="
 		/>
 		<!-- to add border and center the col -->
-		<!-- <b-collapse visible appear> -->
 		<b-row align-h="center" no-gutters>
 			<b-col class="col-md-8">
 				<div class="border">
@@ -125,9 +98,10 @@
 				/>
 			</b-col>
 		</b-row>
-
-		<!-- </b-collapse> -->
 	</b-container>
+	<div class="mt-5 d-flex justify-content-center" v-else>
+		<b-spinner style="width: 5rem; height: 5rem;" variant="primary"></b-spinner>
+	</div>
 </template>
 
 <script>

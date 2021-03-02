@@ -111,6 +111,9 @@
 			empty2="المراجعين"
 		/>
 	</b-container>
+	<div class="mt-5 d-flex justify-content-center" v-else>
+		<b-spinner style="width: 5rem; height: 5rem;" variant="primary"></b-spinner>
+	</div>
 </template>
 
 <script>
