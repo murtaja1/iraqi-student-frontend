@@ -63,7 +63,7 @@
 					</h5>
 					<b-img
 						center
-						:src="'https://iraqi-student.herokuapp.com' + soruce.logo"
+						:src="soruce.logo"
 						:alt="soruce.name"
 						height="150"
 					></b-img>
@@ -88,7 +88,7 @@
 									<b-img
 										class="img"
 										right
-										src="http://localhost:8000/media/images/01/19/21/iraq-flag-xs.jpg"
+										src="https://iraqistudent.s3.us-east-2.amazonaws.com/images/03/04/21/iraq-flag-xs.jpg"
 										height="20"
 									></b-img
 									><span class="pr-1">{{ soruce.country }}</span>
@@ -180,7 +180,6 @@ export default {
 					res.students_num
 				]
 				if (this.name !== "news") {
-					console.log("dd")
 					shared
 						.fetchData(
 							`collages?university__name=${this.soruce.name}&page_size=${this.soruce.collages_num}`
