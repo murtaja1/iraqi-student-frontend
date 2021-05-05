@@ -29,11 +29,6 @@
 						هذا الايميل غير صالح للاستخدام, يرجى ادخال اميل صالح!
 					</b-alert></span
 				>
-				<span v-if="alertStatus.emailSuccess">
-					<b-alert show variant="success" class="mt-1" dismissible>
-						لقد تم ارسال رمز التحقق الى بريدك الالكتروني!
-					</b-alert></span
-				>
 			</b-form-group>
 
 			<b-button type="submit" variant="primary">ارسال</b-button>
@@ -53,7 +48,6 @@ export default {
 			oninput: "setCustomValidity('')",
 			alertStatus: {
 				emailFail: false,
-				emailSuccess: false,
 				emailFocus: false
 			}
 		}
@@ -88,7 +82,7 @@ export default {
 			if (res.email) {
 				this.alertStatus.emailFail = true
 			} else if (res.status == "OK") {
-				this.alertStatus.emailSuccess = true
+				this.$router.push({ name: "resetPassword" })
 			}
 			console.log(res)
 		}
