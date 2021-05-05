@@ -7,12 +7,7 @@
 					أسم المستخدم او كلمة المرور غير صحيح.
 				</b-alert>
 			</span>
-			<b-form-group
-				id="input-group-1"
-				label="أسم المستخدم:"
-				label-for="input-1"
-				class="mt-2"
-			>
+			<b-form-group id="input-group-1" label="أسم المستخدم:" label-for="input-1" class="mt-2">
 				<b-input-group>
 					<b-input-group-prepend is-text>
 						<b-icon icon="person-fill"></b-icon>
@@ -48,7 +43,7 @@
 				</b-input-group>
 			</b-form-group>
 			<b-button type="submit" variant="primary">تسجيل الدخول</b-button>
-			<b-link to="/forgotpassword"> نسيت كلمة المرور؟ </b-link>
+			<b-link to="/forgotPassword"> نسيت كلمة المرور؟ </b-link>
 		</b-form>
 
 		<hr class="col-sm-4 col-6" />

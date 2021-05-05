@@ -25,8 +25,8 @@ const routes = [
 		component: register
 	},
 	{
-		path: "/forgotpassword",
-		name: "forgotpassword",
+		path: "/forgotPassword",
+		name: "forgotPassword",
 		component: Forgot
 	},
 	{
