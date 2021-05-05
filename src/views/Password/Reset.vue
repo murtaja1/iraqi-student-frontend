@@ -51,6 +51,7 @@
 		</b-form>
 	</b-container>
 </template>
+
 <script>
 export default {
 	data() {
