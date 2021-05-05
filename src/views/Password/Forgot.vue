@@ -31,7 +31,7 @@
 				>
 			</b-form-group>
 
-			<b-button type="submit" variant="primary">ارسال</b-button>
+			<b-button type="submit" class="mb-2" variant="primary">ارسال</b-button>
 		</b-form>
 	</b-container>
 </template>
