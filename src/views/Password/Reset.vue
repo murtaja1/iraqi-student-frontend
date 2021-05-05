@@ -87,7 +87,7 @@ export default {
 			if (res.token) {
 				this.tokenSuccess = true
 			} else if (res.status == "OK") {
-				this.tokenSuccess = false
+				this.$router.push({ name: "logIn" })
 			}
 			console.log(res)
 		}
