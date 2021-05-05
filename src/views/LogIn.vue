@@ -47,8 +47,8 @@
 					></b-form-input>
 				</b-input-group>
 			</b-form-group>
-
 			<b-button type="submit" variant="primary">تسجيل الدخول</b-button>
+			<b-link to="/forgotpassword"> نسيت كلمة المرور؟ </b-link>
 		</b-form>
 
 		<hr class="col-sm-4 col-6" />
