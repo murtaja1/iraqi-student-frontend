@@ -2,7 +2,6 @@
 	<b-container class="border mt-2 rounded col-md-6 bg-color">
 		<b-form @submit.prevent="handleSubmit" class="text-right">
 			<b-form-group
-				v-if="form.forgotPasswordForm"
 				id="input-group-2"
 				label-size="sm"
 				label="ادخل الايميل ليتم ارسال رمز التحقق"
@@ -18,8 +17,8 @@
 						v-model="form.email"
 						type="email"
 						:title="title"
-						@invalid="checkEmailValidity"
-						@input="checkEmailValidity"
+						@invalid="checkemailValidity"
+						@input="checkemailValidity"
 						required
 						placeholder="ادخل البريد الالكتروني"
 					></b-form-input>
@@ -47,9 +46,7 @@ export default {
 	data() {
 		return {
 			form: {
-				email: "",
-				forgotPasswordForm: true,
-				resetPasswordForm: false
+				email: ""
 			},
 			title: "املأ ألحقل رجاءاً",
 			oninvalid: "setCustomValidity('املأ ألحقل رجاءاً')",
@@ -62,7 +59,7 @@ export default {
 		}
 	},
 	methods: {
-		checkEmailValidity() {
+		checkemailValidity() {
 			var email = document.getElementById("input-2")
 			if (email.value === "") {
 				email.setCustomValidity(" يرجى ملىء ألحقل ")

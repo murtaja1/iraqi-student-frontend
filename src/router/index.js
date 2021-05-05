@@ -6,7 +6,8 @@ import collage from "../views/Collage.vue"
 import department from "../views/Department.vue"
 import logIn from "../views/LogIn.vue"
 import register from "../views/Register.vue"
-import ForgotPassword from "../views/ForgotPassword"
+import Forgot from "../views/Password/Forgot"
+import Reset from "../views/Password/Reset"
 
 // remember transition for router.
 
@@ -26,7 +27,12 @@ const routes = [
 	{
 		path: "/forgotpassword",
 		name: "forgotpassword",
-		component: ForgotPassword
+		component: Forgot
+	},
+	{
+		path: "/resetpassword",
+		name: "resetpassword",
+		component: Reset
 	},
 	{
 		path: "/",
