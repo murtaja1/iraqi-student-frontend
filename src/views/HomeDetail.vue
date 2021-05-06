@@ -14,10 +14,7 @@
 					<h5 class="mr-2">
 						كليات {{ soruce.name }}
 						<small>
-							<b-link
-								v-b-toggle.collapse-3
-								@click="showCollages = !showCollages"
-							>
+							<b-link v-b-toggle.collapse-3 @click="showCollages = !showCollages">
 								[{{ showLink }}]</b-link
 							>
 						</small>
@@ -33,12 +30,7 @@
 										<li>
 											<!-- i could use state to pass url and not this  -->
 											<b-link
-												:to="
-													'/university/collage/' +
-														soruce.name +
-														'/' +
-														collages[n - 1].name
-												"
+												:to="'/university/collage/' + soruce.name + '/' + collages[n - 1].name"
 												class="linkColor"
 												>{{ collages[n - 1].name }}</b-link
 											>
@@ -50,23 +42,12 @@
 					</b-form-row>
 				</b-col>
 
-				<b-col
-					align-self="start"
-					md="4"
-					lg="4"
-					xl="3"
-					class="border ml-1 side-box-color"
-				>
+				<b-col align-self="start" md="4" lg="4" xl="3" class="border ml-1 side-box-color">
 					<h5 class="text-center text-white border pb-2 pt-1 box-top-bgc">
 						<font-awesome-icon icon="university" />
 						{{ soruce.name }}
 					</h5>
-					<b-img
-						center
-						:src="soruce.logo"
-						:alt="soruce.name"
-						height="150"
-					></b-img>
+					<b-img center :src="soruce.logo" :alt="soruce.name" height="150"></b-img>
 					<!-- could mix id with sub_url -->
 					<Rating
 						class="text-center"
@@ -109,7 +90,7 @@
 			</b-form-row>
 			<h6 class="mt-2">مراجعات {{ soruce.name }}</h6>
 			<hr class="col-md-3 col-sm-3 col-6" align="right" />
-			<Review
+			<ParentReview
 				class="col-md-6 mt-2"
 				:building="soruce.id"
 				sub_url="university_reviews"
@@ -124,7 +105,7 @@
 				<VueShowdown :markdown="soruce.description" flavor="github"/>
 				<h6 class="mt-2">التعليقات:</h6>
 				<hr class="col-md-3 col-sm-3 col-6" align="right"/>
-				<Review
+				<ParentReview
 					class="col-md-8 mt-4"
 					:building="soruce.id"
 					sub_url="news_reviews"
@@ -142,12 +123,12 @@
 // <router-view :key="$route.fullPath" />
 import shared from "../shared"
 import Rating from "../components/Rating"
-import Review from "../components/Review.vue"
+import ParentReview from "../components/ParentReview"
 
 export default {
 	components: {
 		Rating,
-		Review
+		ParentReview
 	},
 	data() {
 		return {
@@ -173,12 +154,7 @@ export default {
 			shared.fetchData(this.name + "/" + this.$route.params.id).then((res) => {
 				this.soruce = res
 
-				this.sideTableContent = [
-					res.province,
-					res.president,
-					res.collages_num,
-					res.students_num
-				]
+				this.sideTableContent = [res.province, res.president, res.collages_num, res.students_num]
 				if (this.name !== "news") {
 					shared
 						.fetchData(

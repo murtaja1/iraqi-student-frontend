@@ -17,15 +17,7 @@ export default {
 			"نوفمبر",
 			"ديسمبر"
 		]
-		var days = [
-			"اﻷحد",
-			"اﻷثنين",
-			"الثلاثاء",
-			"اﻷربعاء",
-			"الخميس",
-			"الجمعة",
-			"السبت"
-		]
+		var days = ["اﻷحد", "اﻷثنين", "الثلاثاء", "اﻷربعاء", "الخميس", "الجمعة", "السبت"]
 		var delDateString =
 			days[date.getDay()] +
 			", " +
@@ -65,18 +57,15 @@ export default {
 
 	sendReviewRating: async (content) => {
 		// access token request
-		const promiseAccess = await fetch(
-			`${store.state.tokenModel.url}api/token/refresh/`,
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify({
-					refresh: store.state.tokenModel.refresh
-				})
-			}
-		)
+		const promiseAccess = await fetch(`${store.state.tokenModel.url}api/token/refresh/`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				refresh: store.state.tokenModel.refresh
+			})
+		})
 		const dataAccess = await promiseAccess.json()
 		// user request
 		const promiseUser = await fetch(
@@ -101,21 +90,15 @@ export default {
 		}
 
 		if (content.method === "POST" || content.method === "PUT") {
-			// console.log(dataAccess.access);
-
-			const promise = await fetch(
-				`${store.state.tokenModel.url + content.sub_url + content.id}`,
-				{
-					method: content.method,
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: "Bearer " + dataAccess.access
-					},
-					body: JSON.stringify(body)
-				}
-			)
+			const promise = await fetch(`${store.state.tokenModel.url + content.sub_url + content.id}`, {
+				method: content.method,
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + dataAccess.access
+				},
+				body: JSON.stringify(body)
+			})
 			const data = await promise.json()
-			// console.log(data);
 			return data
 		}
 		// delete request
