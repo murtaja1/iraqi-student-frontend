@@ -30,20 +30,14 @@
 							</b-tr>
 							<b-tr>
 								<b-th>التعيين</b-th>
-								<b-td v-if="soruce.central_designation === false"
-									>ليس مركزي</b-td
-								>
+								<b-td v-if="soruce.central_designation === false">ليس مركزي</b-td>
 								<b-td v-if="soruce.central_designation === true">مركزي</b-td>
 							</b-tr>
 
 							<b-tr v-for="n in 3" :key="n">
 								<b-th>{{ booleanFieldTitle[n - 1] }}</b-th>
-								<b-td v-if="soruce[booleanFieldContent[n - 1]] === false"
-									>لا يوجد</b-td
-								>
-								<b-td v-if="soruce[booleanFieldContent[n - 1]] === true"
-									>موجود</b-td
-								>
+								<b-td v-if="soruce[booleanFieldContent[n - 1]] === false">لا يوجد</b-td>
+								<b-td v-if="soruce[booleanFieldContent[n - 1]] === true">موجود</b-td>
 							</b-tr>
 
 							<b-tr>
@@ -52,8 +46,7 @@
 									السنة <b-icon icon="arrow-left-circle"></b-icon> المعدل<br />
 
 									<span v-for="y in years" :key="y"
-										>{{ y }} <b-icon icon="arrow-left-circle"></b-icon>
-										{{ soruce.sum[y] }} <br />
+										>{{ y }} <b-icon icon="arrow-left-circle"></b-icon> {{ soruce.sum[y] }} <br />
 									</span>
 								</b-td>
 							</b-tr>
@@ -67,9 +60,7 @@
 								<b-th>جامعات أخرا تحتوي هذا القسم</b-th>
 								<b-td>
 									<span v-for="(u, index) in soruce.other_universities" :key="u"
-										><b-link
-											:to="`/detail/universities/${universityId[index]}`"
-										>
+										><b-link :to="`/detail/universities/${universityId[index]}`">
 											{{ u }}
 										</b-link></span
 									>
@@ -89,7 +80,7 @@
 				</div>
 				<h6 class="mt-4">مراجعات {{ soruce.name }}</h6>
 				<hr class="col-md-3 col-sm-3 col-6" align="right" />
-				<Review
+				<ParentReview
 					class="mt-2"
 					:building="soruce.id"
 					sub_url="department_reviews"
@@ -105,12 +96,12 @@
 </template>
 
 <script>
-import rating from "../components/Rating.vue"
-import Review from "../components/Review.vue"
+import rating from "../components/Rating"
+import ParentReview from "../components/Reviews/Parent"
 import shared from "../shared"
 
 export default {
-	components: { rating, Review },
+	components: { rating, ParentReview },
 	data() {
 		return {
 			universityId: [],
@@ -153,11 +144,10 @@ export default {
 				this.soruce = res.results[0]
 
 				for (let u in this.soruce.other_universities) {
-					shared
-						.fetchData(`universityid?name=${this.soruce.other_universities[u]}`)
-						.then((res) => {
-							this.universityId.push(res.results[u].id)
-						})
+					shared.fetchData(`universityid?name=${this.soruce.other_universities[u]}`).then((res) => {
+						// a bug
+						this.universityId.push(res.results[u].id)
+					})
 				}
 			})
 	}
