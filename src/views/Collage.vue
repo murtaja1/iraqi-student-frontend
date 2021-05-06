@@ -20,20 +20,13 @@
 
 				<hr class="col-sm-5 col-lg-4 col-xl-3 col-8 mr-2" align="right" />
 				<b-collapse visible appear id="collapse-3" class="border">
-					<b-table-simple
-						responsive
-						striped
-						hover
-						v-if="departments.length !== 0"
-					>
+					<b-table-simple responsive striped hover v-if="departments.length !== 0">
 						<b-thead>
 							<b-tr>
 								<!-- wider on small phones -->
 
 								<b-th>{{ soruce.name }}</b-th>
-								<b-th class="text-center" variant="secondary" colspan="5"
-									>الحدود الدنيا لسنة</b-th
-								>
+								<b-th class="text-center" variant="secondary" colspan="5">الحدود الدنيا لسنة</b-th>
 							</b-tr>
 							<b-tr>
 								<b-th>القسم</b-th>
@@ -56,9 +49,7 @@
 										>{{ departments[n - 1].name }}</b-link
 									></b-td
 								>
-								<b-td v-for="i in years" :key="i"
-									>{{ departments[n - 1].sum[i] }}
-								</b-td>
+								<b-td v-for="i in years" :key="i">{{ departments[n - 1].sum[i] }} </b-td>
 							</b-tr>
 						</b-tbody>
 					</b-table-simple>
@@ -103,7 +94,7 @@
 		</b-form-row>
 		<h6 class="mt-2">مراجعات {{ soruce.name }}</h6>
 		<hr class="col-md-3 col-sm-3 col-6" align="right" />
-		<Review
+		<ParentReview
 			class="col-md-6 mt-2"
 			:building="soruce.id"
 			sub_url="collage_reviews"
@@ -119,12 +110,12 @@
 <script>
 import shared from "@/shared"
 import Rating from "../components/Rating"
-import Review from "../components/Review.vue"
+import ParentReview from "../components/Reviews/Parent"
 
 export default {
 	components: {
 		Rating,
-		Review
+		ParentReview
 	},
 	data() {
 		return {
@@ -148,9 +139,7 @@ export default {
 	mounted() {
 		const url = this.$route.params
 		shared
-			.fetchData(
-				`collagesdetail?university__name=${url.university}&name=${url.collage}`
-			)
+			.fetchData(`collagesdetail?university__name=${url.university}&name=${url.collage}`)
 			.then((res) => {
 				this.soruce = res.results[0]
 

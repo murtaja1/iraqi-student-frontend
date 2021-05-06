@@ -81,9 +81,9 @@
 </template>
 
 <script>
-import Review from "./Review"
+import Review from "./Child"
 import { mapState } from "vuex"
-import shared from "../shared"
+import shared from "../../shared"
 
 export default {
 	components: {

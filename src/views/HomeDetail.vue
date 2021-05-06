@@ -123,7 +123,7 @@
 // <router-view :key="$route.fullPath" />
 import shared from "../shared"
 import Rating from "../components/Rating"
-import ParentReview from "../components/ParentReview"
+import ParentReview from "../components/Reviews/Parent"
 
 export default {
 	components: {

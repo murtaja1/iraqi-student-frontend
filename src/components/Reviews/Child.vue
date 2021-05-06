@@ -51,12 +51,11 @@
 </template>
 
 <script>
-import shared from "../shared"
+import shared from "../../shared"
 import { mapState } from "vuex"
 
 export default {
 	data() {
-		console.log(this.review.id)
 		return {
 			text: "",
 			edit_text: "",
