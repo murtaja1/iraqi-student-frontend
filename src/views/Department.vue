@@ -80,7 +80,7 @@
 				</div>
 				<h6 class="mt-4">مراجعات {{ soruce.name }}</h6>
 				<hr class="col-md-3 col-sm-3 col-6" align="right" />
-				<ParentReview
+				<ReviewParent
 					class="mt-2"
 					:building="soruce.id"
 					sub_url="department_reviews"
@@ -97,11 +97,11 @@
 
 <script>
 import rating from "../components/Rating"
-import ParentReview from "../components/Reviews/Parent"
+import ReviewParent from "../components/Reviews/ReviewParent"
 import shared from "../shared"
 
 export default {
-	components: { rating, ParentReview },
+	components: { rating, ReviewParent },
 	data() {
 		return {
 			universityId: [],

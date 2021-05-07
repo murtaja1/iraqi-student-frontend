@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<Review
+		<ReviewChild
 			v-for="review in reviews"
 			:key="review.id"
 			:review="review"
@@ -81,13 +81,13 @@
 </template>
 
 <script>
-import Review from "./Child"
+import ReviewChild from "./ReviewChild"
 import { mapState } from "vuex"
 import shared from "../../shared"
 
 export default {
 	components: {
-		Review
+		ReviewChild
 	},
 	data() {
 		return {

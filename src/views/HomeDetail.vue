@@ -90,7 +90,7 @@
 			</b-form-row>
 			<h6 class="mt-2">مراجعات {{ soruce.name }}</h6>
 			<hr class="col-md-3 col-sm-3 col-6" align="right" />
-			<ParentReview
+			<ReviewParent
 				class="col-md-6 mt-2"
 				:building="soruce.id"
 				sub_url="university_reviews"
@@ -105,7 +105,7 @@
 				<VueShowdown :markdown="soruce.description" flavor="github"/>
 				<h6 class="mt-2">التعليقات:</h6>
 				<hr class="col-md-3 col-sm-3 col-6" align="right"/>
-				<ParentReview
+				<ReviewParent
 					class="col-md-8 mt-4"
 					:building="soruce.id"
 					sub_url="news_reviews"
@@ -123,12 +123,12 @@
 // <router-view :key="$route.fullPath" />
 import shared from "../shared"
 import Rating from "../components/Rating"
-import ParentReview from "../components/Reviews/Parent"
+import ReviewParent from "../components/Reviews/ReviewParent"
 
 export default {
 	components: {
 		Rating,
-		ParentReview
+		ReviewParent
 	},
 	data() {
 		return {
