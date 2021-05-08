@@ -28,7 +28,7 @@
 			{{ review.review }}
 		</p>
 
-		<b-form v-if="edit" @submit.prevent="formSumbit">
+		<b-form v-if="edit" @submit.prevent="formSumbit" class="edit">
 			<b-form-textarea class="mt-1" id="textarea" v-model="edit_text" rows="2"></b-form-textarea>
 			<b-button
 				variant="primary"
@@ -106,6 +106,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.edit {
+	margin-bottom: 30px;
+}
 .left-posit {
 	float: left;
 }
