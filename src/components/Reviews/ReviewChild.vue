@@ -67,7 +67,8 @@ export default {
 	props: {
 		review: Object,
 		sub_url: String,
-		fetchReview: Function
+		fetchReview: Function,
+		currentPage: Number
 	},
 	computed: mapState({
 		username: (state) => state.tokenModel.username
@@ -81,11 +82,7 @@ export default {
 					method: "DELETE"
 				})
 				.then(() => {
-					// if one comment in a page and the comment gets deleted.
-					// the entire page will be deleted, so it will throw an error('404' not found).
-					// but still a problem here!
-					this.currentPage = 1
-					this.fetchReview()
+					this.fetchReview(1)
 				})
 		},
 		formSumbit() {
@@ -98,7 +95,7 @@ export default {
 					method: "PUT"
 				})
 				.then(() => {
-					this.fetchReview()
+					this.fetchReview(this.currentPage)
 					this.dot_info = false
 					this.edit = false
 				})

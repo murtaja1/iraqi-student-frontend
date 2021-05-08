@@ -5,24 +5,15 @@
 			:key="review.id"
 			:review="review"
 			:sub_url="sub_url"
+			:currentPage="currentPage"
 			:fetchReview="fetchReview"
 		/>
-		<b-pagination
-			v-if="ShowPagi"
-			class="mt-2"
-			v-model="currentPage"
-			:total-rows="totalReviews"
-			per-page="5"
-			prev-text="السابق"
-			next-text="التالي"
-			align="center"
-			size="sm"
-			pills
-			@input="fetchReview"
-			hide-goto-end-buttons
-			first-number
-			last-number
-		></b-pagination>
+		<Pagination
+			:show="show"
+			:totalRows="totalReviews"
+			:currentPage="currentPage"
+			:fetchData="fetchReview"
+		/>
 		<div v-if="ShowNoCOM" align="center" class="text-danger">
 			لا {{ empty1 }} حتى الان! <br /><span class="no-com">(كون اول {{ empty2 }})</span>
 		</div>
@@ -84,10 +75,11 @@
 import ReviewChild from "./ReviewChild"
 import { mapState } from "vuex"
 import shared from "../../shared"
-
+import Pagination from "../Pagination"
 export default {
 	components: {
-		ReviewChild
+		ReviewChild,
+		Pagination
 	},
 	data() {
 		return {
@@ -98,9 +90,9 @@ export default {
 			text: "",
 			currentPage: 1,
 			ShowNoCOM: "",
-			ShowPagi: "",
+			show: false,
 			reviews: "",
-			totalReviews: ""
+			totalReviews: 0
 		}
 	},
 	props: {
@@ -111,7 +103,15 @@ export default {
 	},
 	computed: mapState({
 		refresh: (state) => state.tokenModel.refresh,
-		username: (state) => state.tokenModel.username
+		username: (state) => state.tokenModel.username,
+		UpdateCurrentPage: {
+			get: function() {
+				return this.currentPage
+			},
+			set: function(newValue) {
+				this.$emit("update:currentPage", newValue)
+			}
+		}
 	}),
 	methods: {
 		formSumbit() {
@@ -124,11 +124,13 @@ export default {
 					method: "POST"
 				})
 				.then(() => {
-					this.fetchReview()
+					this.fetchReview(1)
 				})
 			this.text = ""
 		},
-		fetchReview() {
+		fetchReview(page) {
+			// so the watch in pagin gets called
+			this.currentPage = page
 			// to avoid mutating the prop directly.
 			var temp_url = this.sub_url
 			// news need an id in the url, cos the url for all news cards is similar.
@@ -139,22 +141,16 @@ export default {
 				temp_url = temp_url.concat(`?building__id=${this.building}&`)
 			}
 			shared
-				.fetchData(
-					temp_url.concat(`?building__id=${this.building}&page=${this.currentPage}&page_size=5`)
-				)
+				.fetchData(temp_url.concat(`?building__id=${this.building}&page=${page}&page_size=6`))
 				.then((res) => {
 					this.reviews = res.results
 					this.totalReviews = res.count
 					// at first both of them is false.
 					// if there is a comment the shownocom will be false.
 					this.ShowNoCOM = !res.count
-					this.ShowPagi = res.count
+					this.show = res.count > 0
 				})
 		}
-	},
-
-	mounted() {
-		this.fetchReview()
 	}
 }
 </script>
