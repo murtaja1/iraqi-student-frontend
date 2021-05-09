@@ -1,23 +1,23 @@
 <template>
-	<div class="text-right mb-2 mt-0 border ">
+	<div class="text-right mb-2 mt-0 border">
 		<!-- let one edit text appear! -->
 		<!-- username is used to control dots appearance -->
-		<b-icon
+		<b-dropdown
 			v-if="(username === review.username) & !edit"
-			@click="dot_info = !dot_info"
-			icon="three-dots-vertical"
-			class="dots-posit"
-		></b-icon>
-
-		<b-button-group
-			vertical
-			@click="edit_text = review.review"
-			v-if="dot_info & !edit"
-			class="dots-posit"
+			no-caret
+			dropright
+			class="left-posit"
+			variant="link"
+			toggle-class="text-decoration-none px-0 py-0"
 		>
-			<b-button size="sm" variant="info" @click="edit = !edit">تعديل</b-button>
-			<b-button size="sm" variant="danger" @click="deleteRview()">حذف</b-button>
-		</b-button-group>
+			<template #button-content>
+				<b-icon icon="three-dots-vertical"></b-icon>
+			</template>
+			<b-button-group vertical @click="edit_text = review.review" class="dots-posit">
+				<b-button size="sm" variant="info" @click="edit = !edit">تعديل</b-button>
+				<b-button size="sm" variant="danger" @click="deleteRview()">حذف</b-button>
+			</b-button-group>
+		</b-dropdown>
 		<h6>
 			<b-avatar size="sm"></b-avatar>
 			{{ review.username }}
@@ -28,13 +28,13 @@
 			{{ review.review }}
 		</p>
 
-		<b-form v-if="edit" @submit.prevent="formSumbit">
+		<b-form v-if="edit" @submit.prevent="formSumbit" class="edit">
 			<b-form-textarea class="mt-1" id="textarea" v-model="edit_text" rows="2"></b-form-textarea>
 			<b-button
 				variant="primary"
 				:disabled="edit_text === ''"
 				@click="method = 'PUT'"
-				class="btn-posit"
+				class="left-posit"
 				type="submit"
 				size="sm"
 				>تعديل</b-button
@@ -42,7 +42,7 @@
 			<b-button
 				variant="danger"
 				@click=";(edit = !edit), (dot_info = !dot_info)"
-				class="btn-posit"
+				class="left-posit"
 				size="sm"
 				>ألغاء</b-button
 			>
@@ -67,7 +67,8 @@ export default {
 	props: {
 		review: Object,
 		sub_url: String,
-		fetchReview: Function
+		fetchReview: Function,
+		currentPage: Number
 	},
 	computed: mapState({
 		username: (state) => state.tokenModel.username
@@ -81,11 +82,7 @@ export default {
 					method: "DELETE"
 				})
 				.then(() => {
-					// if one comment in a page and the comment gets deleted.
-					// the entire page will be deleted, so it will throw an error('404' not found).
-					// but still a problem here!
-					this.currentPage = 1
-					this.fetchReview()
+					this.fetchReview(1)
 				})
 		},
 		formSumbit() {
@@ -98,7 +95,7 @@ export default {
 					method: "PUT"
 				})
 				.then(() => {
-					this.fetchReview()
+					this.fetchReview(this.currentPage)
 					this.dot_info = false
 					this.edit = false
 				})
@@ -109,11 +106,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.btn-posit {
+.edit {
+	margin-bottom: 30px;
+}
+.left-posit {
 	float: left;
 }
-.dots-posit {
-	float: left;
+::v-deep .btn-link {
+	color: black;
+}
+::v-deep .btn-link:hover {
+	color: black;
+}
+::v-deep .btn:focus {
+	box-shadow: none;
+}
+::v-deep .dropdown-menu {
+	border: none;
+	background: none;
 }
 .no-com {
 	font-size: 10px;
