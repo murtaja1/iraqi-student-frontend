@@ -2,23 +2,22 @@
 	<div class="text-right mb-2 mt-0 border">
 		<!-- let one edit text appear! -->
 		<!-- username is used to control dots appearance -->
-		<div v-show="`${username}` == `${review.username}` && !edit">
-			<b-dropdown
-				no-caret
-				dropright
-				class="left-posit"
-				variant="link"
-				toggle-class="text-decoration-none px-0 py-0"
-			>
-				<template #button-content>
-					<b-icon icon="three-dots-vertical"></b-icon>
-				</template>
-				<b-button-group vertical @click="edit_text = review.review" class="dots-posit">
-					<b-button size="sm" variant="info" @click="edit = !edit">تعديل</b-button>
-					<b-button size="sm" variant="danger" @click="modalShow = true">حذف</b-button>
-				</b-button-group>
-			</b-dropdown>
-		</div>
+		<b-dropdown
+			v-show="showDots"
+			no-caret
+			dropright
+			class="left-posit"
+			variant="link"
+			toggle-class="text-decoration-none px-0 py-0"
+		>
+			<template #button-content>
+				<b-icon icon="three-dots-vertical"></b-icon>
+			</template>
+			<b-button-group vertical @click="edit_text = review.review" class="dots-posit">
+				<b-button size="sm" variant="info" @click="edit = !edit">تعديل</b-button>
+				<b-button size="sm" variant="danger" @click="modalShow = true">حذف</b-button>
+			</b-button-group>
+		</b-dropdown>
 		<!-- confirmation -->
 		<b-modal v-model="modalShow" centered scrollable hide-footer hide-header no-close-on-backdrop>
 			<h4 align="center" class="text-danger" v-if="!deleting">هل انت متأكد من الحذف؟</h4>
@@ -36,7 +35,7 @@
 		<hr class="col-2 mr-2 mt-0 mb-0" />
 
 		<p class="mr-2 mt-0" v-if="!edit">
-			{{ review.review }} {{ `${username}` == `${review.username}` }}
+			{{ review.review }}
 		</p>
 
 		<b-form v-if="edit" @submit.prevent="formSumbit" class="edit">
@@ -63,11 +62,12 @@
 
 <script>
 import shared from "../../shared"
-import { mapState } from "vuex"
+import store from "../../store"
 
 export default {
 	data() {
 		return {
+			showDots: store.state.tokenModel.username === this.review.username && !this.edit,
 			text: "",
 			edit_text: "",
 			modalShow: false,
@@ -83,9 +83,6 @@ export default {
 		fetchReview: Function,
 		currentPage: Number
 	},
-	computed: mapState({
-		username: (state) => state.tokenModel.username
-	}),
 	methods: {
 		deleteRview() {
 			this.deleting = true
