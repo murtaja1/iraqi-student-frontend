@@ -42,8 +42,8 @@
 				</b-card-group>
 			</div>
 		</b-container>
-		<div class="mt-5 d-flex justify-content-center" v-else>
-			<b-spinner style="width: 5rem; height: 5rem;" variant="primary"></b-spinner>
+		<div class="mt-5 d-flex justify-content-center" v-if="loading">
+			<b-spinner class="spinner" type="grow" variant="primary"></b-spinner>
 		</div>
 		<Pagination
 			:show="name !== 'home' && data.length > 0"
@@ -62,6 +62,7 @@ export default {
 	data() {
 		return {
 			currentPage: 1,
+			loading: false,
 			// for homeDetail url, it's just like title but english.
 			homeDetail: [],
 			data: [],
@@ -84,6 +85,7 @@ export default {
 	},
 	methods: {
 		fetchData(page) {
+			this.loading = true
 			if (this.name !== "home") {
 				this.currentPage = page
 				shared.fetchData(this.name + `?page=${this.currentPage}&page_size=6`).then((res) => {
@@ -91,6 +93,7 @@ export default {
 					this.homeDetail = [this.name]
 					this.data.push(res)
 					this.totalRows = res.count
+					this.loading = false
 				})
 			} else {
 				this.data = []
@@ -101,6 +104,7 @@ export default {
 
 					shared.fetchData(this.homeDetail[1] + "?page=1&page_size=6").then((res) => {
 						this.data.push(res)
+						this.loading = false
 					})
 				})
 			}
@@ -114,6 +118,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.spinner {
+	width: 3rem;
+	height: 3rem;
+}
 @media only screen and (min-width: 600px) {
 	.card-scale:hover {
 		transform: scale(1.02);

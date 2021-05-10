@@ -8,6 +8,9 @@
 			:currentPage="currentPage"
 			:fetchReview="fetchReview"
 		/>
+		<div align="center">
+			<b-spinner v-if="loading" type="grow" label="Loading..." variant="primary"></b-spinner>
+		</div>
 		<Pagination
 			:show="show"
 			:totalRows="totalReviews"
@@ -17,30 +20,7 @@
 		<div v-if="ShowNoCOM" align="center" class="text-danger">
 			لا {{ empty1 }} حتى الان! <br /><span class="no-com">(كون اول {{ empty2 }})</span>
 		</div>
-
-		<b-form @submit.prevent="formSumbit">
-			<label for="textarea">أترك مراجعة: </label>
-			<b-form-textarea
-				class=" mb-1"
-				id="textarea"
-				v-model="text"
-				placeholder="اكتب ..."
-				rows="2"
-			></b-form-textarea>
-			<b-popover target="textarea" placement="topleft" variant="info" v-if="!refresh">
-				يرجىء
-				<b-button variant="outline-primary" size="sm" to="/login">تسجل الدخول</b-button>
-				أولا
-			</b-popover>
-
-			<b-button
-				variant="primary"
-				:disabled="!refresh || text === ''"
-				class="btn-posit"
-				type="submit"
-				>ارسال</b-button
-			></b-form
-		>
+		<ReviewForm :fetchReview="fetchReview" :sub_url="sub_url" :building="building" />
 		<!-- <b-form v-if="!refresh" @submit.prevent="formSumbit">
 			<b-form-group id="input-group-1" label="الاسم:" label-for="input-1">
 				<b-form-input
@@ -76,10 +56,12 @@ import ReviewChild from "./ReviewChild"
 import { mapState } from "vuex"
 import shared from "../../shared"
 import Pagination from "../Pagination"
+import ReviewForm from "./ReviewForm"
 export default {
 	components: {
 		ReviewChild,
-		Pagination
+		Pagination,
+		ReviewForm
 	},
 	data() {
 		return {
@@ -87,6 +69,7 @@ export default {
 			// 	name: "",
 			// 	email: ""
 			// },
+			loading: false,
 			text: "",
 			currentPage: 1,
 			ShowNoCOM: "",
@@ -103,52 +86,22 @@ export default {
 	},
 	computed: mapState({
 		refresh: (state) => state.tokenModel.refresh,
-		username: (state) => state.tokenModel.username,
-		UpdateCurrentPage: {
-			get: function() {
-				return this.currentPage
-			},
-			set: function(newValue) {
-				this.$emit("update:currentPage", newValue)
-			}
-		}
+		username: (state) => state.tokenModel.username
 	}),
 	methods: {
-		formSumbit() {
-			shared
-				.sendReviewRating({
-					review: this.text,
-					building: this.building,
-					sub_url: this.sub_url,
-					id: "",
-					method: "POST"
-				})
-				.then(() => {
-					this.fetchReview(1)
-				})
-			this.text = ""
-		},
 		fetchReview(page) {
+			this.loading = true
 			// so the watch in pagin gets called
 			this.currentPage = page
-			// to avoid mutating the prop directly.
-			var temp_url = this.sub_url
-			// news need an id in the url, cos the url for all news cards is similar.
-			// putting the id just here to delete and change it correctly.
-
-			// a bug cos I am having building__id twice if news.
-			if (this.sub_url === "news_reviews") {
-				temp_url = temp_url.concat(`?building__id=${this.building}&`)
-			}
 			shared
-				.fetchData(temp_url.concat(`?building__id=${this.building}&page=${page}&page_size=6`))
+				.fetchData(`${this.sub_url}?building__id=${this.building}&page=${page}&page_size=6`)
 				.then((res) => {
 					this.reviews = res.results
 					this.totalReviews = res.count
 					// at first both of them is false.
-					// if there is a comment the shownocom will be false.
-					this.ShowNoCOM = !res.count
+					this.ShowNoCOM = res.count === 0
 					this.show = res.count > 0
+					this.loading = false
 				})
 		}
 	}
