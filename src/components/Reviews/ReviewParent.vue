@@ -8,6 +8,9 @@
 			:currentPage="currentPage"
 			:fetchReview="fetchReview"
 		/>
+		<div align="center">
+			<b-spinner v-if="loading" type="grow" label="Loading..." variant="primary"></b-spinner>
+		</div>
 		<Pagination
 			:show="show"
 			:totalRows="totalReviews"
@@ -66,6 +69,7 @@ export default {
 			// 	name: "",
 			// 	email: ""
 			// },
+			loading: false,
 			text: "",
 			currentPage: 1,
 			ShowNoCOM: "",
@@ -86,6 +90,7 @@ export default {
 	}),
 	methods: {
 		fetchReview(page) {
+			this.loading = true
 			// so the watch in pagin gets called
 			this.currentPage = page
 			// to avoid mutating the prop directly.
@@ -106,6 +111,7 @@ export default {
 					// if there is a comment the shownocom will be false.
 					this.ShowNoCOM = !res.count
 					this.show = res.count > 0
+					this.loading = false
 				})
 		}
 	}

@@ -1,5 +1,6 @@
 <template>
 	<b-pagination
+		class="pr-0"
 		v-if="show"
 		v-model="page"
 		:total-rows="totalRows"
@@ -7,8 +8,8 @@
 		prev-text="السابق"
 		next-text="التالي"
 		limit="4"
-		align="center"
 		pills
+		align="center"
 		@input="fetchData(page)"
 		hide-goto-end-buttons
 		first-number
