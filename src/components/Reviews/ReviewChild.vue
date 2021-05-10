@@ -2,7 +2,7 @@
 	<div class="text-right mb-2 mt-0 border">
 		<!-- let one edit text appear! -->
 		<!-- username is used to control dots appearance -->
-		<div v-show="username == review.username && !edit">
+		<div v-show="`${username}` == `${review.username}` && !edit">
 			<b-dropdown
 				no-caret
 				dropright
@@ -36,7 +36,7 @@
 		<hr class="col-2 mr-2 mt-0 mb-0" />
 
 		<p class="mr-2 mt-0" v-if="!edit">
-			{{ review.review }} {{ `${username === review.username}` }}
+			{{ review.review }} {{ `${username}` == `${review.username}` }}
 		</p>
 
 		<b-form v-if="edit" @submit.prevent="formSumbit" class="edit">
