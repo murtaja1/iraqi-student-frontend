@@ -34,7 +34,12 @@
 		</h6>
 		<hr class="col-2 mr-2 mt-0 mb-0" />
 
-		<p class="mr-2 mt-0" v-if="!edit">{{ review.review }} {{ $store.state.tokenModel.username }}</p>
+		<p class="mr-2 mt-0" v-if="!edit">
+			{{ review.review }} {{ this.review.username == $store.state.tokenModel.username.trim() }}
+			{{ this.review.username === $store.state.tokenModel.username.trim() }}
+			{{ this.review.username === $store.state.tokenModel.username }}
+			{{ this.review.username === $store.state.tokenModel.username.slice(0, -1) }}
+		</p>
 
 		<b-form v-if="edit" @submit.prevent="formSumbit" class="edit">
 			<b-form-textarea class="mt-1" id="textarea" v-model="edit_text" rows="2"></b-form-textarea>
@@ -65,7 +70,7 @@ import store from "../../store"
 export default {
 	data() {
 		return {
-			showDots: this.review.username == store.state.tokenModel.username && !this.edit,
+			showDots: this.review.username == store.state.tokenModel.username.trim() && !this.edit,
 			text: "",
 			edit_text: "",
 			modalShow: false,
@@ -83,6 +88,7 @@ export default {
 	},
 	methods: {
 		deleteRview() {
+			console.log(escape(this.review.username))
 			this.deleting = true
 			shared
 				.sendReviewRating({
