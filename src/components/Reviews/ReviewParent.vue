@@ -93,23 +93,13 @@ export default {
 			this.loading = true
 			// so the watch in pagin gets called
 			this.currentPage = page
-			// to avoid mutating the prop directly.
-			var temp_url = this.sub_url
-			// news need an id in the url, cos the url for all news cards is similar.
-			// putting the id just here to delete and change it correctly.
-
-			// a bug cos I am having building__id twice if news.
-			if (this.sub_url === "news_reviews") {
-				temp_url = temp_url.concat(`?building__id=${this.building}&`)
-			}
 			shared
-				.fetchData(temp_url.concat(`?building__id=${this.building}&page=${page}&page_size=6`))
+				.fetchData(`${this.sub_url}?building__id=${this.building}&page=${page}&page_size=6`)
 				.then((res) => {
 					this.reviews = res.results
 					this.totalReviews = res.count
 					// at first both of them is false.
-					// if there is a comment the shownocom will be false.
-					this.ShowNoCOM = !res.count
+					this.ShowNoCOM = res.count === 0
 					this.show = res.count > 0
 					this.loading = false
 				})
