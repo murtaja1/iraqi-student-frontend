@@ -18,7 +18,7 @@
 				<b-button size="sm" variant="danger" @click="modalShow = true">حذف</b-button>
 			</b-button-group>
 		</b-dropdown>
-		<!-- confrimation -->
+		<!-- confirmation -->
 		<b-modal v-model="modalShow" centered scrollable hide-footer hide-header no-close-on-backdrop>
 			<h4 align="center" class="text-danger" v-if="!deleting">هل انت متأكد من الحذف؟</h4>
 			<div v-if="deleting" align="center">
