@@ -35,10 +35,7 @@
 		<hr class="col-2 mr-2 mt-0 mb-0" />
 
 		<p class="mr-2 mt-0" v-if="!edit">
-			{{ review.review }} {{ this.review.username == $store.state.tokenModel.username.trim() }}
-			{{ this.review.username === $store.state.tokenModel.username.trim() }}
-			{{ this.review.username === $store.state.tokenModel.username }}
-			{{ this.review.username === $store.state.tokenModel.username.slice(0, -1) }}
+			{{ review.review }}
 		</p>
 
 		<b-form v-if="edit" @submit.prevent="formSumbit" class="edit">
@@ -70,6 +67,7 @@ import store from "../../store"
 export default {
 	data() {
 		return {
+			// trim: https://stackoverflow.com/questions/863524/javascript-string-compare-sometimes-fails
 			showDots: this.review.username == store.state.tokenModel.username.trim() && !this.edit,
 			text: "",
 			edit_text: "",
