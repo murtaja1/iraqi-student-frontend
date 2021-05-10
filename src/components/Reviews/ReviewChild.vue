@@ -15,9 +15,14 @@
 			</template>
 			<b-button-group vertical @click="edit_text = review.review" class="dots-posit">
 				<b-button size="sm" variant="info" @click="edit = !edit">تعديل</b-button>
-				<b-button size="sm" variant="danger" @click="deleteRview()">حذف</b-button>
+				<b-button size="sm" variant="danger" @click="modalShow = true">حذف</b-button>
 			</b-button-group>
 		</b-dropdown>
+		<b-modal v-model="modalShow" centered scrollable hide-footer hide-header no-close-on-backdrop>
+			<h4 align="center" class="text-danger">هل انت متأكد من حذف المراجعة؟</h4>
+			<b-button @click="deleteRview()" variant="info" class="mt-2 mr-2">نعم</b-button>
+			<b-button @click="modalShow = false" variant="danger" class="mt-2 mr-2">ألغاء</b-button>
+		</b-modal>
 		<h6>
 			<b-avatar size="sm"></b-avatar>
 			{{ review.username }}
@@ -59,6 +64,7 @@ export default {
 		return {
 			text: "",
 			edit_text: "",
+			modalShow: false,
 			dot_info: false,
 			edit: false,
 			comment_id: `/${this.review.id}/`
@@ -83,6 +89,7 @@ export default {
 				})
 				.then(() => {
 					this.fetchReview(1)
+					this.modalShow = false
 				})
 		},
 		formSumbit() {
