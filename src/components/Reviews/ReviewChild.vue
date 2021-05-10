@@ -67,7 +67,7 @@ import store from "../../store"
 export default {
 	data() {
 		return {
-			showDots: store.state.tokenModel.username === this.review.username && !this.edit,
+			showDots: store.state.tokenModel.username == "murtaja" && !this.edit,
 			text: "",
 			edit_text: "",
 			modalShow: false,
