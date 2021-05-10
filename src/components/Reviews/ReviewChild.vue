@@ -35,7 +35,9 @@
 		</h6>
 		<hr class="col-2 mr-2 mt-0 mb-0" />
 
-		<p class="mr-2 mt-0" v-if="!edit">{{ review.review }} {{ username }} {{ review.username }}</p>
+		<p class="mr-2 mt-0" v-if="!edit">
+			{{ review.review }} {{ `${username === review.username}` }}
+		</p>
 
 		<b-form v-if="edit" @submit.prevent="formSumbit" class="edit">
 			<b-form-textarea class="mt-1" id="textarea" v-model="edit_text" rows="2"></b-form-textarea>
