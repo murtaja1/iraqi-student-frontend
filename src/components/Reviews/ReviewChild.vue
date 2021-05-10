@@ -3,7 +3,7 @@
 		<!-- let one edit text appear! -->
 		<!-- username is used to control dots appearance -->
 		<b-dropdown
-			v-show="showDots"
+			v-show="showDots && !edit"
 			no-caret
 			dropright
 			class="left-posit"
@@ -68,7 +68,7 @@ export default {
 	data() {
 		return {
 			// trim: https://stackoverflow.com/questions/863524/javascript-string-compare-sometimes-fails
-			showDots: this.review.username == store.state.tokenModel.username.trim() && !this.edit,
+			showDots: this.review.username == store.state.tokenModel.username.trim(),
 			text: "",
 			edit_text: "",
 			modalShow: false,
