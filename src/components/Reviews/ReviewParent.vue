@@ -17,30 +17,7 @@
 		<div v-if="ShowNoCOM" align="center" class="text-danger">
 			لا {{ empty1 }} حتى الان! <br /><span class="no-com">(كون اول {{ empty2 }})</span>
 		</div>
-
-		<b-form @submit.prevent="formSumbit">
-			<label for="textarea">أترك مراجعة: </label>
-			<b-form-textarea
-				class=" mb-1"
-				id="textarea"
-				v-model="text"
-				placeholder="اكتب ..."
-				rows="2"
-			></b-form-textarea>
-			<b-popover target="textarea" placement="topleft" variant="info" v-if="!refresh">
-				يرجىء
-				<b-button variant="outline-primary" size="sm" to="/login">تسجل الدخول</b-button>
-				أولا
-			</b-popover>
-
-			<b-button
-				variant="primary"
-				:disabled="!refresh || text === ''"
-				class="btn-posit"
-				type="submit"
-				>ارسال</b-button
-			></b-form
-		>
+		<ReviewForm :fetchReview="fetchReview" :sub_url="sub_url" :building="building" />
 		<!-- <b-form v-if="!refresh" @submit.prevent="formSumbit">
 			<b-form-group id="input-group-1" label="الاسم:" label-for="input-1">
 				<b-form-input
@@ -76,10 +53,12 @@ import ReviewChild from "./ReviewChild"
 import { mapState } from "vuex"
 import shared from "../../shared"
 import Pagination from "../Pagination"
+import ReviewForm from "./ReviewForm"
 export default {
 	components: {
 		ReviewChild,
-		Pagination
+		Pagination,
+		ReviewForm
 	},
 	data() {
 		return {
@@ -103,31 +82,9 @@ export default {
 	},
 	computed: mapState({
 		refresh: (state) => state.tokenModel.refresh,
-		username: (state) => state.tokenModel.username,
-		UpdateCurrentPage: {
-			get: function() {
-				return this.currentPage
-			},
-			set: function(newValue) {
-				this.$emit("update:currentPage", newValue)
-			}
-		}
+		username: (state) => state.tokenModel.username
 	}),
 	methods: {
-		formSumbit() {
-			shared
-				.sendReviewRating({
-					review: this.text,
-					building: this.building,
-					sub_url: this.sub_url,
-					id: "",
-					method: "POST"
-				})
-				.then(() => {
-					this.fetchReview(1)
-				})
-			this.text = ""
-		},
 		fetchReview(page) {
 			// so the watch in pagin gets called
 			this.currentPage = page
