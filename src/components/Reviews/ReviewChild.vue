@@ -2,22 +2,23 @@
 	<div class="text-right mb-2 mt-0 border">
 		<!-- let one edit text appear! -->
 		<!-- username is used to control dots appearance -->
-		<b-dropdown
-			v-show="username === review.username && !edit"
-			no-caret
-			dropright
-			class="left-posit"
-			variant="link"
-			toggle-class="text-decoration-none px-0 py-0"
-		>
-			<template #button-content>
-				<b-icon icon="three-dots-vertical"></b-icon>
-			</template>
-			<b-button-group vertical @click="edit_text = review.review" class="dots-posit">
-				<b-button size="sm" variant="info" @click="edit = !edit">تعديل</b-button>
-				<b-button size="sm" variant="danger" @click="modalShow = true">حذف</b-button>
-			</b-button-group>
-		</b-dropdown>
+		<div v-show="username == review.username && !edit">
+			<b-dropdown
+				no-caret
+				dropright
+				class="left-posit"
+				variant="link"
+				toggle-class="text-decoration-none px-0 py-0"
+			>
+				<template #button-content>
+					<b-icon icon="three-dots-vertical"></b-icon>
+				</template>
+				<b-button-group vertical @click="edit_text = review.review" class="dots-posit">
+					<b-button size="sm" variant="info" @click="edit = !edit">تعديل</b-button>
+					<b-button size="sm" variant="danger" @click="modalShow = true">حذف</b-button>
+				</b-button-group>
+			</b-dropdown>
+		</div>
 		<!-- confirmation -->
 		<b-modal v-model="modalShow" centered scrollable hide-footer hide-header no-close-on-backdrop>
 			<h4 align="center" class="text-danger" v-if="!deleting">هل انت متأكد من الحذف؟</h4>
