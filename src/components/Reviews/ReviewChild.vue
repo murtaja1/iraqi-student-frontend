@@ -3,7 +3,7 @@
 		<!-- let one edit text appear! -->
 		<!-- username is used to control dots appearance -->
 		<b-dropdown
-			v-if="(username === review.username) & !edit"
+			v-show="showDots"
 			no-caret
 			dropright
 			class="left-posit"
@@ -62,11 +62,13 @@
 
 <script>
 import shared from "../../shared"
-import { mapState } from "vuex"
+import store from "../../store"
 
 export default {
 	data() {
 		return {
+			// trim: https://stackoverflow.com/questions/863524/javascript-string-compare-sometimes-fails
+			showDots: this.review.username == store.state.tokenModel.username.trim() && !this.edit,
 			text: "",
 			edit_text: "",
 			modalShow: false,
@@ -82,11 +84,9 @@ export default {
 		fetchReview: Function,
 		currentPage: Number
 	},
-	computed: mapState({
-		username: (state) => state.tokenModel.username
-	}),
 	methods: {
 		deleteRview() {
+			console.log(escape(this.review.username))
 			this.deleting = true
 			shared
 				.sendReviewRating({
