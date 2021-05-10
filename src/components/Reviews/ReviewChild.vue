@@ -62,12 +62,12 @@
 
 <script>
 import shared from "../../shared"
-import store from "../../store"
-
+// import store from "../../store"
+// store.state.tokenModel.username
 export default {
 	data() {
 		return {
-			showDots: store.state.tokenModel.username == "murtaja" && !this.edit,
+			showDots: this.review.username == "murtaja" && !this.edit,
 			text: "",
 			edit_text: "",
 			modalShow: false,
