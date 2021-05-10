@@ -86,7 +86,6 @@ export default {
 	},
 	methods: {
 		deleteRview() {
-			console.log(escape(this.review.username))
 			this.deleting = true
 			shared
 				.sendReviewRating({
