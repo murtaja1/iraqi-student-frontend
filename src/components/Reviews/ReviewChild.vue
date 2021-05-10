@@ -18,8 +18,13 @@
 				<b-button size="sm" variant="danger" @click="modalShow = true">حذف</b-button>
 			</b-button-group>
 		</b-dropdown>
+		<!-- confrimation -->
 		<b-modal v-model="modalShow" centered scrollable hide-footer hide-header no-close-on-backdrop>
-			<h4 align="center" class="text-danger">هل انت متأكد من حذف المراجعة؟</h4>
+			<h4 align="center" class="text-danger" v-if="!deleting">هل انت متأكد من الحذف؟</h4>
+			<div v-if="deleting" align="center">
+				<h4 class="text-danger">جاري الحذف...</h4>
+				<b-spinner variant="danger"></b-spinner>
+			</div>
 			<b-button @click="deleteRview()" variant="info" class="mt-2 mr-2">نعم</b-button>
 			<b-button @click="modalShow = false" variant="danger" class="mt-2 mr-2">ألغاء</b-button>
 		</b-modal>
@@ -65,6 +70,7 @@ export default {
 			text: "",
 			edit_text: "",
 			modalShow: false,
+			deleting: false,
 			dot_info: false,
 			edit: false,
 			comment_id: `/${this.review.id}/`
@@ -81,6 +87,7 @@ export default {
 	}),
 	methods: {
 		deleteRview() {
+			this.deleting = true
 			shared
 				.sendReviewRating({
 					sub_url: this.sub_url,
@@ -90,6 +97,7 @@ export default {
 				.then(() => {
 					this.fetchReview(1)
 					this.modalShow = false
+					this.deleting = false
 				})
 		},
 		formSumbit() {
