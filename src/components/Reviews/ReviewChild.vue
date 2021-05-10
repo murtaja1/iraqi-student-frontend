@@ -3,7 +3,7 @@
 		<!-- let one edit text appear! -->
 		<!-- username is used to control dots appearance -->
 		<b-dropdown
-			v-if="(username == review.username) & !edit"
+			v-if="username == review.username && !edit"
 			no-caret
 			dropright
 			class="left-posit"
