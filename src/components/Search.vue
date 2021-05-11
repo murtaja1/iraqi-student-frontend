@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="container">
 		<font-awesome-icon @click="modalShow = true" icon="search" class="scale" size="lg" />
 		<b-modal v-model="modalShow" centered scrollable hide-footer hide-header no-close-on-backdrop>
 			<div align="right">
@@ -25,7 +25,7 @@
 				لا توجد نتائج مطابقة!
 				<br /><small>(تأكد من الإملاء)</small>
 			</p>
-			<b-list-group>
+			<b-list-group class="groub">
 				<b-list-group-item
 					class="nn bg-black"
 					v-for="(url, index) in urls"
@@ -89,23 +89,49 @@ export default {
 						this.noResult = true
 					}
 				})
+			} else {
+				// if the user remove the text
+				this.urls = []
+				this.names = []
 			}
 		}
 	}
 }
 </script>
 <style lang="scss" scoped>
-// .nn:nth-child(1) {
-// 	border-top: none;
-// 	border-radius: 0;
-// }
+.container {
+	overflow: hidden;
+}
+.groub {
+	max-height: 250px;
+	overflow: auto;
+}
+::-webkit-scrollbar {
+	width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: rgb(199, 199, 199);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: rgb(141, 141, 141);
+}
+
 .scale {
 	cursor: pointer;
 	transition: transform 0.2s;
 }
 .scale:hover {
-	transform: scale(1.2);
-	-webkit-transform: scale(1.2);
+	transform: scale(1.05);
+	-webkit-transform: scale(1.05);
 }
 .x {
 	position: absolute;
