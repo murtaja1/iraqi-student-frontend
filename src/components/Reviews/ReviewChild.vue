@@ -47,7 +47,7 @@
 			></b-form-textarea>
 			<b-button
 				variant="primary"
-				:disabled="edit_text === ''"
+				:disabled="edit_text === '' || edit_text == review.review"
 				@click="method = 'PUT'"
 				class="left-posit mx-1"
 				type="submit"
@@ -74,7 +74,6 @@ export default {
 		return {
 			// trim: https://stackoverflow.com/questions/863524/javascript-string-compare-sometimes-fails
 			showDots: this.review.username == store.state.tokenModel.username.trim(),
-			text: "",
 			edit_text: "",
 			modalShow: false,
 			deleting: false,
