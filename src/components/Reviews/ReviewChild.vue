@@ -6,14 +6,14 @@
 			v-show="showDots && !edit"
 			no-caret
 			dropright
-			class="left-posit"
+			class="left-posit mt-1"
 			variant="link"
 			toggle-class="text-decoration-none px-0 py-0"
 		>
 			<template #button-content>
 				<b-icon icon="three-dots-vertical"></b-icon>
 			</template>
-			<b-button-group vertical @click="edit_text = review.review" class="dots-posit">
+			<b-button-group vertical @click="edit_text = review.review">
 				<b-button size="sm" variant="info" @click="edit = !edit">تعديل</b-button>
 				<b-button size="sm" variant="danger" @click="modalShow = true">حذف</b-button>
 			</b-button-group>
@@ -38,13 +38,18 @@
 			{{ review.review }}
 		</p>
 
-		<b-form v-if="edit" @submit.prevent="formSumbit" class="edit">
-			<b-form-textarea class="mt-1" id="textarea" v-model="edit_text" rows="2"></b-form-textarea>
+		<b-form v-if="edit" @submit.prevent="formSumbit" class="mb-5">
+			<b-form-textarea
+				class="mt-1 mb-2"
+				id="textarea"
+				v-model="edit_text"
+				rows="2"
+			></b-form-textarea>
 			<b-button
 				variant="primary"
 				:disabled="edit_text === ''"
 				@click="method = 'PUT'"
-				class="left-posit"
+				class="left-posit mx-1"
 				type="submit"
 				size="sm"
 				>تعديل</b-button
@@ -120,11 +125,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.edit {
-	margin-bottom: 30px;
-}
+// .edit {
+// 	margin: 35;
+// }
 .left-posit {
 	float: left;
+	// min-width: 50px;
 }
 ::v-deep .btn-link {
 	color: black;
@@ -138,6 +144,8 @@ export default {
 ::v-deep .dropdown-menu {
 	border: none;
 	background: none;
+	min-width: 50px;
+	padding: 0;
 }
 .no-com {
 	font-size: 10px;

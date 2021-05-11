@@ -14,7 +14,7 @@
 			أولا
 		</b-popover>
 
-		<b-button variant="primary" :disabled="!refresh || text === ''" class="btn-posit" type="submit"
+		<b-button variant="primary" :disabled="!refresh || text === ''" class="mb-2" type="submit"
 			>ارسال</b-button
 		></b-form
 	>
