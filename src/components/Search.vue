@@ -1,57 +1,46 @@
 <template>
 	<div>
-		<font-awesome-icon
-			@click=";(modalShow = !modalShow), (urls = []), (names = []), (text = '')"
-			icon="search"
-			size="lg"
-		/>
+		<font-awesome-icon @click="modalShow = true" icon="search" class="scale" size="lg" />
 		<b-modal v-model="modalShow" centered scrollable hide-footer hide-header no-close-on-backdrop>
 			<div align="right">
 				<label for="search">اكتب اسم الجامعة او الكلية او القسم:</label>
 			</div>
 
-			<b-input-group id="search" size="sm" class="mb-2">
-				<b-input-group-prepend is-text>
-					<b-icon icon="search"></b-icon>
+			<b-input-group id="search" size="sm">
+				<b-input-group-prepend is-text @click="fetchSearchData">
+					<b-icon icon="search" class="search"></b-icon>
 				</b-input-group-prepend>
 
-				<b-form-input v-model="text" type="search" placeholder="بحث..."></b-form-input>
+				<b-form-input
+					@input="fetchSearchData"
+					v-model="text"
+					type="search"
+					placeholder="بحث..."
+				></b-form-input>
 			</b-input-group>
-			<!-- <p v-if="showSearchM" class="text-center text-danger">
-        لا توجد نتائج مطابقة!
-        <br /><small>(تأكد من الاملأ)</small>
-      </p> -->
 
-			<b-button
-				@click="fetchSearchData"
-				type="submit"
-				variant="success"
-				class="mt-2"
-				:disabled="text === ''"
-			>
-				بحث <b-icon icon="search" font-scale="0.9"></b-icon
-			></b-button>
-			<b-button
-				@click=";(modalShow = false), (showSearchM = false)"
-				variant="danger"
-				class="mt-2 mr-2"
-				>ألغاء</b-button
-			>
-			<p v-if="showSearchM" class="text-center text-danger mt-2">
+			<b-icon icon="x" class="x scale" font-scale="1.5" @click="close"></b-icon>
+
+			<p v-if="!noResult" class="text-center text-danger mt-2">
 				لا توجد نتائج مطابقة!
-				<br /><small>(تأكد من الاملأ)</small>
+				<br /><small>(تأكد من الإملاء)</small>
 			</p>
-			<ul v-for="(n, index) in urls" :key="index" align="right">
-				<li @click=";(modalShow = !modalShow), (urls = []), (names = []), (text = '')">
-					<b-link :to="n">{{ names[index] }}</b-link>
-				</li>
-			</ul>
+			<b-list-group>
+				<b-list-group-item
+					class="nn bg-black"
+					v-for="(url, index) in urls"
+					:key="index"
+					align="right"
+					><b-link :to="url" class="text-dark" @click="close">{{
+						names[index]
+					}}</b-link></b-list-group-item
+				>
+			</b-list-group>
 		</b-modal>
 	</div>
 </template>
 
 <script>
-// import router from '../router'
 import shared from "../shared"
 export default {
 	data() {
@@ -60,45 +49,76 @@ export default {
 			text: "",
 			urls: [],
 			names: [],
-			showSearchM: false
+			noResult: true
 		}
 	},
 
 	methods: {
-		// url(n) {
-		//   // router.replace(n)
-		//   router.push({ path: n })
-		//   // router.go(-1)
-		// },
+		close() {
+			this.modalShow = false
+			this.urls = []
+			this.names = []
+			this.text = ""
+		},
 		fetchSearchData() {
-			shared.fetchData(`search?q=${this.text}&page_size=100`).then((res) => {
-				this.urls = []
-				this.names = []
-				var n
-				for (n in res.results) {
-					let s = res.results[n].name
-					if (s.substr(0, 5) === "جامعة") {
-						this.urls.push(`/detail/universities/${res.results[n].id}`)
-						this.names.push(s)
-					} else if (s.substr(0, 7) === "الجامعة") {
-						this.urls.push(`/detail/universities/${res.results[n].id}`)
-						this.names.push(s)
-					} else if (s.substr(0, 4) === "كلية") {
-						this.urls.push(`/university/collage/${res.results[n].university}/${s}`)
-						this.names.push(res.results[n].university + " / " + s)
-					} else {
-						this.urls.push(`/department/${res.results[n].collage}/${s}`)
-						this.names.push(res.results[n].collage + " / " + s)
+			if (this.text) {
+				shared.fetchData(`search?q=${this.text}&page_size=100`).then((res) => {
+					this.urls = []
+					this.names = []
+					var n
+					for (n in res.results) {
+						let s = res.results[n].name
+						if (s.substr(0, 5) === "جامعة") {
+							this.urls.push(`/detail/universities/${res.results[n].id}`)
+							this.names.push(s)
+						} else if (s.substr(0, 7) === "الجامعة") {
+							this.urls.push(`/detail/universities/${res.results[n].id}`)
+							this.names.push(s)
+						} else if (s.substr(0, 4) === "كلية") {
+							this.urls.push(`/university/collage/${res.results[n].university}/${s}`)
+							this.names.push(res.results[n].university + " / " + s)
+						} else {
+							this.urls.push(`/department/${res.results[n].collage}/${s}`)
+							this.names.push(res.results[n].collage + " / " + s)
+						}
 					}
-				}
-				// to inform the user about the results.
-				if (this.names.length === 0) {
-					this.showSearchM = true
-				} else {
-					this.showSearchM = false
-				}
-			})
+					// to inform the user about the results.
+					if (this.names.length === 0) {
+						this.noResult = false
+					} else {
+						this.noResult = true
+					}
+				})
+			}
 		}
 	}
 }
 </script>
+<style lang="scss" scoped>
+// .nn:nth-child(1) {
+// 	border-top: none;
+// 	border-radius: 0;
+// }
+.scale {
+	cursor: pointer;
+	transition: transform 0.2s;
+}
+.scale:hover {
+	transform: scale(1.2);
+	-webkit-transform: scale(1.2);
+}
+.x {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+.x:hover {
+	color: red;
+}
+::v-deep .input-group-text {
+	background: #28a745;
+	color: white;
+	border-radius: 100px;
+	cursor: pointer;
+}
+</style>
