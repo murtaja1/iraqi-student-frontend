@@ -68,12 +68,13 @@
 <script>
 import shared from "../../shared"
 import store from "../../store"
-
 export default {
 	data() {
 		return {
 			// trim: https://stackoverflow.com/questions/863524/javascript-string-compare-sometimes-fails
-			showDots: this.review.username == store.state.tokenModel.username.trim(),
+			showDots:
+				this.review.username ==
+				(store.state.tokenModel.username == null ? "" : store.state.tokenModel.username.trim()),
 			edit_text: "",
 			modalShow: false,
 			deleting: false,
@@ -124,12 +125,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// .edit {
-// 	margin: 35;
-// }
 .left-posit {
 	float: left;
-	// min-width: 50px;
 }
 ::v-deep .btn-link {
 	color: black;
