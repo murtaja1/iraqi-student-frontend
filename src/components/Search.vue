@@ -1,10 +1,6 @@
 <template>
 	<div>
-		<font-awesome-icon
-			@click=";(modalShow = !modalShow), (urls = []), (names = []), (text = '')"
-			icon="search"
-			size="lg"
-		/>
+		<font-awesome-icon @click="modalShow = true" icon="search" class="scale" size="lg" />
 		<b-modal v-model="modalShow" centered scrollable hide-footer hide-header no-close-on-backdrop>
 			<div align="right">
 				<label for="search">اكتب اسم الجامعة او الكلية او القسم:</label>
@@ -23,23 +19,23 @@
 				></b-form-input>
 			</b-input-group>
 
-			<b-icon
-				icon="x"
-				class="x"
-				font-scale="1.5"
-				@click=";(modalShow = false), (showSearchM = false)"
-			></b-icon>
+			<b-icon icon="x" class="x scale" font-scale="1.5" @click="close"></b-icon>
 
-			<p v-if="showSearchM" class="text-center text-danger mt-2">
+			<p v-if="!noResult" class="text-center text-danger mt-2">
 				لا توجد نتائج مطابقة!
-				<br /><small>(تأكد من الاملأ)</small>
+				<br /><small>(تأكد من الإملاء)</small>
 			</p>
-
-			<ul v-for="(n, index) in urls" :key="index" align="right">
-				<li @click=";(modalShow = !modalShow), (urls = []), (names = []), (text = '')">
-					<b-link :to="n">{{ names[index] }}</b-link>
-				</li>
-			</ul>
+			<b-list-group>
+				<b-list-group-item
+					class="nn bg-black"
+					v-for="(url, index) in urls"
+					:key="index"
+					align="right"
+					><b-link :to="url" class="text-dark" @click="close">{{
+						names[index]
+					}}</b-link></b-list-group-item
+				>
+			</b-list-group>
 		</b-modal>
 	</div>
 </template>
@@ -53,11 +49,17 @@ export default {
 			text: "",
 			urls: [],
 			names: [],
-			showSearchM: false
+			noResult: true
 		}
 	},
 
 	methods: {
+		close() {
+			this.modalShow = false
+			this.urls = []
+			this.names = []
+			this.text = ""
+		},
 		fetchSearchData() {
 			if (this.text) {
 				shared.fetchData(`search?q=${this.text}&page_size=100`).then((res) => {
@@ -82,9 +84,9 @@ export default {
 					}
 					// to inform the user about the results.
 					if (this.names.length === 0) {
-						this.showSearchM = true
+						this.noResult = false
 					} else {
-						this.showSearchM = false
+						this.noResult = true
 					}
 				})
 			}
@@ -93,11 +95,22 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+// .nn:nth-child(1) {
+// 	border-top: none;
+// 	border-radius: 0;
+// }
+.scale {
+	cursor: pointer;
+	transition: transform 0.2s;
+}
+.scale:hover {
+	transform: scale(1.2);
+	-webkit-transform: scale(1.2);
+}
 .x {
 	position: absolute;
 	top: 10px;
 	left: 10px;
-	cursor: pointer;
 }
 .x:hover {
 	color: red;
