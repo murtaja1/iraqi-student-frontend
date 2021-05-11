@@ -112,9 +112,6 @@ export default {
 .btn-posit {
 	float: left;
 }
-.dots-posit {
-	float: left;
-}
 .no-com {
 	font-size: 10px;
 }
