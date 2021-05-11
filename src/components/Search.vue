@@ -65,11 +65,6 @@ export default {
 	},
 
 	methods: {
-		// url(n) {
-		//   // router.replace(n)
-		//   router.push({ path: n })
-		//   // router.go(-1)
-		// },
 		fetchSearchData() {
 			shared.fetchData(`search?q=${this.text}&page_size=100`).then((res) => {
 				this.urls = []
