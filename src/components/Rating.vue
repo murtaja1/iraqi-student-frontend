@@ -27,7 +27,14 @@
 			أولا
 		</b-popover>
 
-		<b-modal v-model="modalShow" centered title="التقييم" hide-header hide-footer>
+		<b-modal
+			v-model="modalShow"
+			centered
+			title="التقييم"
+			no-close-on-backdrop
+			hide-header
+			hide-footer
+		>
 			<b-form-row>
 				<b-col cols="12">
 					<p class="my-4 text-right">
@@ -46,7 +53,10 @@
 						no-border
 					></b-form-rating
 				></b-col>
-				<b-col cols="12">
+				<b-col cols="6" align="left">
+					<b-spinner v-if="loading" variant="success"></b-spinner>
+				</b-col>
+				<b-col cols="6" class="mb-1">
 					<b-button
 						size="sm"
 						:disabled="rate === null"
@@ -74,7 +84,8 @@ export default {
 		return {
 			ave_rating: 0,
 			rate: null,
-			modalShow: false
+			modalShow: false,
+			loading: false
 		}
 	},
 	props: {
@@ -98,6 +109,7 @@ export default {
 		},
 
 		giveRating() {
+			this.loading = true
 			// same id in id and building.
 			// when the refresh token expire there may be an error.
 			shared
@@ -109,10 +121,11 @@ export default {
 					method: "POST"
 				})
 				.then((data) => {
-					this.ave_rating = data.ave_rating
-					this.rate = 0
-					this.fetchAveRating()
 					this.modalShow = false
+					this.ave_rating = data.ave_rating
+					this.rate = null
+					this.fetchAveRating()
+					this.loading = false
 				})
 				.catch((err) => {
 					console.log(err)
