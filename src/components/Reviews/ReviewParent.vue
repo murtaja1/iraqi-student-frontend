@@ -1,15 +1,13 @@
 <template>
 	<div>
-		<div v-if="!loading">
-			<ReviewChild
-				v-for="review in reviews"
-				:key="review.id"
-				:review="review"
-				:sub_url="sub_url"
-				:currentPage="currentPage"
-				:fetchReview="fetchReview"
-			/>
-		</div>
+		<ReviewChild
+			v-for="review in reviews"
+			:key="review.id"
+			:review="review"
+			:sub_url="sub_url"
+			:currentPage="currentPage"
+			:fetchReview="fetchReview"
+		/>
 		<div align="center">
 			<b-spinner v-if="loading" type="grow" label="Loading..." variant="primary"></b-spinner>
 		</div>
