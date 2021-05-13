@@ -1,5 +1,5 @@
 <template>
-	<b-container class="mt-2 col-md-6 bg-color">
+	<b-container class="mt-2 col-md-6 col-xl-4">
 		<h3 align="center">تغيير كلمة المرور</h3>
 		<hr class="hr mb-0" />
 		<b-form @submit.prevent="handleSubmit" class="text-right">
@@ -93,7 +93,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .hr {
-	width: 300px;
+	width: 250px;
 }
 .error:focus {
 	outline: none !important;
