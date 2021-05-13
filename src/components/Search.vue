@@ -106,6 +106,9 @@ export default {
 	max-height: 250px;
 	overflow: auto;
 }
+::v-deep .modal-dialog-scrollable .modal-body {
+	overflow: hidden;
+}
 ::-webkit-scrollbar {
 	width: 4px;
 }

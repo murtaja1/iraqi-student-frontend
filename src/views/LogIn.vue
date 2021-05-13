@@ -1,5 +1,7 @@
 <template>
-	<b-container class="border mt-2 rounded col-md-6 bg-color">
+	<b-container class="mt-2 col-md-6 col-xl-4">
+		<h3 align="center">تسجيل الدخول</h3>
+		<hr class="hr mb-0" />
 		<b-form @submit.prevent="login" class="text-right">
 			<span v-if="fail">
 				<b-alert show variant="danger" class="mt-1">
@@ -20,7 +22,7 @@
 						:oninvalid="oninvalid"
 						:oninput="oninput"
 						required
-						placeholder="ادخل الاسم"
+						placeholder="اكتب..."
 					></b-form-input>
 				</b-input-group>
 			</b-form-group>
@@ -38,7 +40,7 @@
 						:oninvalid="oninvalid"
 						:oninput="oninput"
 						required
-						placeholder="ادخل رمز المرور"
+						placeholder="اكتب..."
 					></b-form-input>
 				</b-input-group>
 			</b-form-group>
@@ -90,7 +92,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.bg-color {
-	background-color: lightblue;
+.hr {
+	width: 200px;
 }
 </style>

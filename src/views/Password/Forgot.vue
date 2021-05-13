@@ -1,10 +1,12 @@
 <template>
-	<b-container class="border mt-2 rounded col-md-6 bg-color">
+	<b-container class="mt-2 col-md-6 col-xl-4">
+		<h3 align="center">تغيير كلمة المرور</h3>
+		<hr class="hr mb-0" />
 		<b-form @submit.prevent="handleSubmit" class="text-right">
 			<b-form-group
 				id="input-group-2"
 				label-size="sm"
-				label="ادخل الايميل ليتم ارسال رمز التحقق"
+				label="ادخل الايميل الخاص بك ليتم ارسال رمز التحقق:"
 				label-for="input-2"
 			>
 				<b-input-group>
@@ -12,7 +14,7 @@
 						<b-icon icon="envelope"></b-icon>
 					</b-input-group-prepend>
 					<b-form-input
-						:class="[alertStatus.emailFocus || alertStatus.emailFail ? 'input' : '']"
+						:class="[alertStatus.emailFocus || alertStatus.emailFail ? 'error' : '']"
 						id="input-2"
 						v-model="form.email"
 						type="email"
@@ -20,7 +22,7 @@
 						@invalid="checkemailValidity"
 						@input="checkemailValidity"
 						required
-						placeholder="ادخل البريد الالكتروني"
+						placeholder="اكتب..."
 					></b-form-input>
 				</b-input-group>
 				<span v-if="alertStatus.emailFail">
@@ -57,7 +59,7 @@ export default {
 			var email = document.getElementById("input-2")
 			if (email.value === "") {
 				email.setCustomValidity(" يرجى ملىء ألحقل ")
-				this.alertStatus.emailFocus = true
+				this.alertStatus.emailFocus = false
 			} else if (email.validity.typeMismatch) {
 				this.alertStatus.emailFocus = true
 				email.setCustomValidity(`يرجىء ادخال اميل صالح`)
@@ -90,11 +92,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-// use the register instead.
-.bg-color {
-	background-color: lightblue;
+.hr {
+	width: 250px;
 }
-.input:focus {
+.error:focus {
 	outline: none !important;
 	border-color: rgb(219, 24, 24);
 	box-shadow: 0 0 5px red;
