@@ -180,7 +180,7 @@ export default {
 			var email = document.getElementById("input-2")
 			if (email.value === "") {
 				email.setCustomValidity(" يرجى ملىء ألحقل ")
-				this.alertStatus.emailFocus = true
+				this.alertStatus.emailFocus = false
 			} else if (email.validity.typeMismatch) {
 				this.alertStatus.emailFocus = true
 				email.setCustomValidity(`يرجىء ادخال اميل صالح`)
