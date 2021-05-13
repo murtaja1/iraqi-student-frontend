@@ -1,5 +1,7 @@
 <template>
-	<b-container class="border mt-2 rounded col-md-6 bg-color">
+	<b-container class="mt-2 col-md-6 col-xl-4 bg-color">
+		<h3 align="center">انشاء حساب</h3>
+		<hr class="hr mb-0" />
 		<b-form @submit.prevent="register" class="text-right mb-2">
 			<b-form-group
 				class="mt-2"
@@ -235,8 +237,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.bg-color {
-	background-color: lightblue;
+.hr {
+	width: 200px;
 }
 .error:focus {
 	outline: none !important;
