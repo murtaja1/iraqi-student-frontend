@@ -83,7 +83,7 @@ export default {
 				}
 			)
 			const res = await promise.json()
-			if (promise.status) {
+			if (promise.status === 404) {
 				this.fail = true
 			} else if (res.status == "OK") {
 				this.$router.push({ name: "logIn" })
