@@ -1,5 +1,5 @@
 <template>
-	<b-container class="mt-2 col-md-6 col-xl-4 bg-color">
+	<b-container class="mt-2 col-md-6 col-xl-4">
 		<h3 align="center">انشاء حساب</h3>
 		<hr class="hr mb-0" />
 		<b-form @submit.prevent="register" class="text-right mb-2">
@@ -24,7 +24,7 @@
 						:oninvalid="oninvalid"
 						:oninput="oninput"
 						required
-						placeholder="ادخل الأسم"
+						placeholder="اكتب..."
 					></b-form-input>
 				</b-input-group>
 				<span v-if="checkUsernameLength || alertStatus.name">
@@ -50,7 +50,7 @@
 						@invalid="checkEmailValidity"
 						@input="checkEmailValidity"
 						required
-						placeholder="ادخل البريد الالكتروني"
+						placeholder="اكتب..."
 					></b-form-input>
 				</b-input-group>
 				<span v-if="alertStatus.email">
@@ -81,7 +81,7 @@
 						:oninvalid="oninvalid"
 						:oninput="oninput"
 						required
-						placeholder="ادخل كلمة المرور"
+						placeholder="اكتب..."
 					></b-form-input>
 				</b-input-group>
 				<span v-if="checkPasswordLength">
@@ -109,7 +109,7 @@
 						:oninvalid="oninvalid"
 						:oninput="oninput"
 						required
-						placeholder="ادخل كلمة المرور مرة اخرا للتأكيد"
+						placeholder="اكتب..."
 					></b-form-input>
 				</b-input-group>
 				<span v-if="checkPasswordMatch">
