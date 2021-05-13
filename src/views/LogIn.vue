@@ -44,7 +44,13 @@
 					></b-form-input>
 				</b-input-group>
 			</b-form-group>
-			<b-button type="submit" variant="primary">تسجيل الدخول</b-button>
+			<b-button type="submit" variant="primary" v-if="!loading">
+				تسجيل الدخول
+			</b-button>
+			<b-button v-else variant="primary" disabled>
+				تسجل الدخول...
+				<b-spinner small></b-spinner>
+			</b-button>
 			<b-link to="/forgotPassword"> نسيت كلمة المرور؟ </b-link>
 		</b-form>
 
@@ -63,6 +69,7 @@ import { mapState } from "vuex"
 export default {
 	data() {
 		return {
+			loading: false,
 			form: {
 				password: "",
 				name: ""
@@ -77,6 +84,7 @@ export default {
 	}),
 	methods: {
 		login() {
+			this.loading = true
 			// call to run an action.
 			// when loged in the user will be pushed home in the getToken method.
 			this.$store
@@ -84,6 +92,7 @@ export default {
 					username: this.form.name,
 					password: this.form.password
 				})
+				.then(() => (this.loading = !this.fail))
 				.catch((err) => {
 					console.log(err)
 				})

@@ -33,7 +33,11 @@
 				>
 			</b-form-group>
 
-			<b-button type="submit" class="mb-2" variant="primary">ارسال</b-button>
+			<b-button type="submit" class="mb-2" variant="primary" v-if="!loading">ارسال</b-button>
+			<b-button v-else variant="primary" disabled>
+				ارسال...
+				<b-spinner small></b-spinner>
+			</b-button>
 		</b-form>
 	</b-container>
 </template>
@@ -42,6 +46,7 @@
 export default {
 	data() {
 		return {
+			loading: false,
 			form: {
 				email: ""
 			},
@@ -70,6 +75,7 @@ export default {
 		},
 		handleSubmit: async function() {
 			this.alertStatus.email = false
+			this.loading = true
 			const promise = await fetch(`${this.$store.state.tokenModel.url}api/password_reset/`, {
 				method: "POST",
 				headers: {
@@ -82,6 +88,7 @@ export default {
 			const res = await promise.json()
 			console.log(res)
 			if (res.email) {
+				this.loading = false
 				this.alertStatus.emailFail = true
 			} else if (res.status == "OK") {
 				this.$router.push({ name: "resetPassword" })

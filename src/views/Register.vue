@@ -120,7 +120,13 @@
 				</span>
 			</b-form-group>
 
-			<b-button type="submit" :disabled="checkSubmitBtn" variant="primary">انشاء حساب</b-button>
+			<b-button type="submit" :disabled="checkSubmitBtn" v-if="!loading" variant="primary"
+				>انشاء حساب</b-button
+			>
+			<b-button v-else variant="primary" disabled>
+				انشاء حساب...
+				<b-spinner small></b-spinner>
+			</b-button>
 		</b-form>
 		<hr class="col-sm-4 col-6" />
 		<div align="center" class="mb-2">
@@ -138,6 +144,7 @@ export default {
 			title: " يرجى ملىء ألحقل ",
 			oninvalid: "setCustomValidity('يرجى ملىء ألحقل')",
 			oninput: "setCustomValidity('')",
+			loading: false,
 			form: {
 				name: "",
 				email: "",
@@ -192,6 +199,7 @@ export default {
 			}
 		},
 		register: async function() {
+			this.loading = true
 			var okRegister = false
 			try {
 				const promise = await fetch(`${this.$store.state.tokenModel.url}register`, {
@@ -220,6 +228,7 @@ export default {
 				this.alertStatus.email = false
 				// to avoid showing the alerts when the registeration succeed, cos this part happens before the getToke func.
 				if (!okRegister) {
+					this.loading = false
 					if (data.username) {
 						this.alertMessage = "تم أخذ هذا الأسم,  ادخل اسم اخر."
 						this.alertStatus.name = true

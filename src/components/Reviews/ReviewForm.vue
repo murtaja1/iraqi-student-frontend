@@ -14,10 +14,19 @@
 			أولا
 		</b-popover>
 
-		<b-button variant="primary" :disabled="!refresh || text === ''" class="mb-2" type="submit"
+		<b-button
+			v-if="!loading"
+			variant="primary"
+			:disabled="!refresh || text === ''"
+			class="mb-2"
+			type="submit"
 			>ارسال</b-button
-		></b-form
-	>
+		>
+		<b-button v-else variant="primary" class="mb-2" disabled>
+			ارسال...
+			<b-spinner small></b-spinner>
+		</b-button>
+	</b-form>
 </template>
 
 <script>
@@ -27,6 +36,7 @@ import { mapState } from "vuex"
 export default {
 	data() {
 		return {
+			loading: false,
 			text: ""
 		}
 	},
@@ -40,6 +50,7 @@ export default {
 	}),
 	methods: {
 		formSumbit() {
+			this.loading = true
 			shared
 				.sendReviewRating({
 					review: this.text,
@@ -50,6 +61,7 @@ export default {
 				})
 				.then(() => {
 					this.fetchReview(1)
+					this.loading = false
 				})
 			this.text = ""
 		}

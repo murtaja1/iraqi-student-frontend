@@ -13,7 +13,7 @@
 			<template #button-content>
 				<b-icon icon="three-dots-vertical"></b-icon>
 			</template>
-			<b-button-group vertical @click="edit_text = review.review">
+			<b-button-group vertical>
 				<b-button size="sm" variant="info" @click="edit = !edit">تعديل</b-button>
 				<b-button size="sm" variant="danger" @click="modalShow = true">حذف</b-button>
 			</b-button-group>
@@ -25,8 +25,10 @@
 				<h4 class="text-danger">جاري الحذف...</h4>
 				<b-spinner variant="danger"></b-spinner>
 			</div>
-			<b-button @click="deleteRview()" variant="info" class="mt-2 mr-2">نعم</b-button>
-			<b-button @click="modalShow = false" variant="danger" class="mt-2 mr-2">ألغاء</b-button>
+			<div v-else>
+				<b-button @click="deleteRview()" variant="info" class="mt-2 mr-2">نعم</b-button>
+				<b-button @click="modalShow = false" variant="danger" class="mt-2 mr-2">ألغاء</b-button>
+			</div>
 		</b-modal>
 		<h6>
 			<b-avatar size="sm"></b-avatar>
@@ -47,13 +49,18 @@
 			></b-form-textarea>
 			<b-button
 				variant="primary"
+				v-if="!editLoading"
 				:disabled="edit_text === '' || edit_text == review.review"
 				@click="method = 'PUT'"
 				class="left-posit mx-1"
 				type="submit"
 				size="sm"
-				>تعديل</b-button
+				>ارسال</b-button
 			>
+			<b-button size="sm" class="left-posit mx-1" v-else variant="primary" disabled>
+				ارسال...
+				<b-spinner small></b-spinner>
+			</b-button>
 			<b-button
 				variant="danger"
 				@click=";(edit = !edit), (dot_info = !dot_info)"
@@ -75,12 +82,13 @@ export default {
 			showDots:
 				this.review.username ==
 				(store.state.tokenModel.username == null ? "" : store.state.tokenModel.username.trim()),
-			edit_text: "",
+			edit_text: this.review.review,
 			modalShow: false,
 			deleting: false,
 			dot_info: false,
 			edit: false,
-			comment_id: `/${this.review.id}/`
+			comment_id: `/${this.review.id}/`,
+			editLoading: false
 		}
 	},
 	props: {
@@ -101,10 +109,10 @@ export default {
 				.then(() => {
 					this.fetchReview(1)
 					this.modalShow = false
-					this.deleting = false
 				})
 		},
 		formSumbit() {
+			this.editLoading = true
 			shared
 				.sendReviewRating({
 					review: this.edit_text,
@@ -117,8 +125,8 @@ export default {
 					this.fetchReview(this.currentPage)
 					this.dot_info = false
 					this.edit = false
+					this.editLoading = false
 				})
-			this.text = ""
 		}
 	}
 }

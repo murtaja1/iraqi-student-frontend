@@ -36,6 +36,9 @@
 					}}</b-link></b-list-group-item
 				>
 			</b-list-group>
+			<div align="center" class="mt-2">
+				<b-spinner variant="primary" v-if="loading"></b-spinner>
+			</div>
 		</b-modal>
 	</div>
 </template>
@@ -45,6 +48,7 @@ import shared from "../shared"
 export default {
 	data() {
 		return {
+			loading: false,
 			modalShow: false,
 			text: "",
 			urls: [],
@@ -55,18 +59,20 @@ export default {
 
 	methods: {
 		close() {
-			this.modalShow = false
-			this.urls = []
+			;(this.modalShow = false), (this.loading = false), (this.urls = [])
 			this.names = []
 			this.text = ""
 		},
 		fetchSearchData() {
 			if (this.text) {
+				this.loading = true
+				this.noResult = true
 				shared.fetchData(`search?q=${this.text}&page_size=100`).then((res) => {
 					this.urls = []
 					this.names = []
 					var n
 					for (n in res.results) {
+						this.loading = false
 						let s = res.results[n].name
 						if (s.substr(0, 5) === "جامعة") {
 							this.urls.push(`/detail/universities/${res.results[n].id}`)
@@ -84,13 +90,12 @@ export default {
 					}
 					// to inform the user about the results.
 					if (this.names.length === 0) {
+						this.loading = false
 						this.noResult = false
-					} else {
-						this.noResult = true
-					}
+					} else this.noResult = true
 				})
 			} else {
-				// if the user remove the text
+				// if the user removes the text
 				this.urls = []
 				this.names = []
 			}

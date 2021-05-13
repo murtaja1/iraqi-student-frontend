@@ -46,7 +46,11 @@
 					></b-form-input>
 				</b-input-group>
 			</b-form-group>
-			<b-button type="submit" variant="primary" class="mb-2">ارسال</b-button>
+			<b-button type="submit" variant="primary" class="mb-2" v-if="!loading">ارسال</b-button>
+			<b-button v-else variant="primary" disabled>
+				ارسال...
+				<b-spinner small></b-spinner>
+			</b-button>
 		</b-form>
 	</b-container>
 </template>
@@ -55,6 +59,7 @@
 export default {
 	data() {
 		return {
+			loading: false,
 			form: {
 				password: "",
 				token: ""
@@ -68,6 +73,7 @@ export default {
 
 	methods: {
 		handleSubmit: async function() {
+			this.loading = true
 			this.fail = false
 			const promise = await fetch(
 				`${this.$store.state.tokenModel.url}api/password_reset/confirm/`,
@@ -84,6 +90,7 @@ export default {
 			)
 			const res = await promise.json()
 			if (promise.status === 404) {
+				this.loading = false
 				this.fail = true
 			} else if (res.status == "OK") {
 				this.$router.push({ name: "logIn" })
