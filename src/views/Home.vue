@@ -9,9 +9,9 @@
 				<hr class="col-sm-7 col-md-8 col-lg-9 hr-title" />
 
 				<b-card-group class="mt-2">
-					<div v-for="card in data[n - 1].results" :key="card.id" class="col-sm-6 col-lg-4 mb-4">
+					<div v-for="card in data[n - 1]" :key="card.id" class="col-sm-6 col-lg-4 mb-4">
 						<b-card align="right" class="border-0 card-scale" no-body>
-							<b-link :to="'detail/' + homeDetail[n - 1] + '/' + card.id" class="text-dark dec">
+							<b-link :to="'detail/' + homeDetail[n - 1] + '/' + card.id" class="text-dark desc">
 								<b-card-img
 									:src="card.card_image"
 									class="rounded mb-3 blur"
@@ -20,13 +20,13 @@
 									img-top
 									:alt="card.image"
 								/>
-								<!-- if the name === news. -->
+
 								<!-- university has a name but news does not. -->
-								<b-card-text class="dec" v-if="!card.name">
+								<b-card-text class="desc" v-if="!card.name">
 									<h5 class="card-title">{{ card.card_text }}</h5>
 								</b-card-text>
 								<!-- else -->
-								<b-card-text class="dec" v-else>
+								<b-card-text class="desc" v-else>
 									<h5 class="card-title">{{ card.name }}</h5>
 									{{ card.card_text }}
 								</b-card-text>
@@ -86,24 +86,22 @@ export default {
 	methods: {
 		fetchData(page) {
 			this.loading = true
+			this.data = []
 			if (this.name !== "home") {
 				this.currentPage = page
 				shared.fetchData(this.name + `?page=${this.currentPage}&page_size=6`).then((res) => {
-					this.data = []
 					this.homeDetail = [this.name]
-					this.data.push(res)
+					this.data.push(res.results)
 					this.totalRows = res.count
 					this.loading = false
 				})
 			} else {
-				this.data = []
 				this.homeDetail = ["news", "universities"]
 				// not using loop cos sometimes university get called before news
 				shared.fetchData(this.homeDetail[0] + "?page=1&page_size=6").then((res) => {
-					this.data.push(res)
-
+					this.data.push(res.results)
 					shared.fetchData(this.homeDetail[1] + "?page=1&page_size=6").then((res) => {
-						this.data.push(res)
+						this.data.push(res.results)
 						this.loading = false
 					})
 				})
@@ -135,9 +133,9 @@ export default {
 		width: 60%;
 	}
 }
-.dec:hover {
-	text-decoration: none;
+.desc:hover {
 	color: rgb(187, 48, 48);
+	text-decoration: none;
 }
 .hr-time {
 	position: relative;
