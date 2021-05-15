@@ -1,14 +1,14 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
 import home from "../views/Home.vue"
-import homeDetail from "../views/HomeDetail.vue"
+import University from "../views/University.vue"
 import collage from "../views/Collage.vue"
 import department from "../views/Department.vue"
 import logIn from "../views/LogIn.vue"
 import register from "../views/Register.vue"
 import Forgot from "../views/Password/Forgot"
 import Reset from "../views/Password/Reset"
-
+import News from "../views/News"
 // remember transition for router.
 
 Vue.use(VueRouter)
@@ -52,11 +52,15 @@ const routes = [
 		component: home,
 		props: { name: "universities", title: ["جامعتي"] }
 	},
-
 	{
-		path: "/detail/:name/:id",
-		name: "homeDetail",
-		component: homeDetail
+		path: "/universities/:id",
+		name: "university",
+		component: University
+	},
+	{
+		path: "/news/:id",
+		name: "news",
+		component: News
 	},
 	{
 		path: "/university/collage/:university/:collage",

@@ -11,7 +11,7 @@
 				<b-card-group class="mt-2">
 					<div v-for="card in data[n - 1]" :key="card.id" class="col-sm-6 col-lg-4 mb-4">
 						<b-card align="right" class="border-0 card-scale" no-body>
-							<b-link :to="'detail/' + homeDetail[n - 1] + '/' + card.id" class="text-dark desc">
+							<b-link :to="homeDetail[n - 1] + '/' + card.id" class="text-dark desc">
 								<b-card-img
 									:src="card.card_image"
 									class="rounded mb-3 blur"

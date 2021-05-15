@@ -1,6 +1,6 @@
 <template>
 	<b-container fluid v-if="soruce">
-		<div v-if="name === 'universities'" align="right">
+		<div align="right">
 			<h4 class="mt-2">
 				{{ soruce.name }}
 			</h4>
@@ -98,21 +98,6 @@
 				empty2="المراجعين"
 			/>
 		</div>
-
-		<div v-if="name === 'news'" align="right">
-			<h5 class="text-center mb-3 mt-3">{{ soruce.card_text }}</h5>
-			<b-container fluid="sm">
-				<VueShowdown :markdown="soruce.description" flavor="github"/>
-				<h6 class="mt-2">التعليقات:</h6>
-				<hr class="col-md-3 col-sm-3 col-6" align="right"/>
-				<ReviewParent
-					class="col-md-8 mt-4"
-					:building="soruce.id"
-					sub_url="news_reviews"
-					empty1="تعليقات"
-					empty2="المعلقين"
-			/></b-container>
-		</div>
 	</b-container>
 	<div class="mt-5 d-flex justify-content-center" v-else>
 		<b-spinner style="width: 5rem; height: 5rem;" variant="primary"></b-spinner>
@@ -120,7 +105,6 @@
 </template>
 
 <script>
-// <router-view :key="$route.fullPath" />
 import shared from "../shared"
 import Rating from "../components/Rating"
 import ReviewParent from "../components/Reviews/ReviewParent"
@@ -136,8 +120,7 @@ export default {
 			sideTableContent: [],
 			showCollages: true,
 			collages: [],
-			soruce: "",
-			name: ""
+			soruce: ""
 		}
 	},
 	computed: {
@@ -149,22 +132,23 @@ export default {
 			}
 		}
 	},
-	mounted() {
-		;(this.name = this.$route.params.name),
-			shared.fetchData(this.name + "/" + this.$route.params.id).then((res) => {
+	methods: {
+		fetchData() {
+			shared.fetchData("universities/" + this.$route.params.id).then((res) => {
 				this.soruce = res
-
 				this.sideTableContent = [res.province, res.president, res.collages_num, res.students_num]
-				if (this.name !== "news") {
-					shared
-						.fetchData(
-							`collages?university__name=${this.soruce.name}&page_size=${this.soruce.collages_num}`
-						)
-						.then((res) => {
-							this.collages = res.results
-						})
-				}
+				shared
+					.fetchData(
+						`collages?university__name=${this.soruce.name}&page_size=${this.soruce.collages_num}`
+					)
+					.then((res) => {
+						this.collages = res.results
+					})
 			})
+		}
+	},
+	mounted() {
+		this.fetchData()
 	}
 }
 </script>
