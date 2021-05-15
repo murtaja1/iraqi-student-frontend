@@ -42,7 +42,7 @@
 					</b-form-row>
 				</b-col>
 
-				<b-col align-self="start" md="4" lg="4" xl="3" class="border ml-1 side-box-color">
+				<b-col align-self="start" sm="12" md="5" lg="4" xl="3" class="border ml-1 side-box-color">
 					<Table
 						:soruce="soruce"
 						:sideTableContent="sideTableContent"

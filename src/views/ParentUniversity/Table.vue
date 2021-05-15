@@ -57,6 +57,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .table th {
+	width: 40%;
+}
 .img {
 	position: relative;
 	top: 5px;
