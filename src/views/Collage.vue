@@ -160,4 +160,8 @@ export default {
 	}
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.box-top-bgc {
+	background-color: rgb(224, 134, 134);
+}
+</style>
