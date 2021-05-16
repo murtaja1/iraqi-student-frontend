@@ -56,7 +56,6 @@ export default {
 					review: this.text,
 					building: this.building,
 					sub_url: this.sub_url,
-					id: "",
 					method: "POST"
 				})
 				.then(() => {

@@ -1,4 +1,5 @@
 import router from "../router"
+import shared from "../shared"
 
 export default {
 	// means every module is its own.(self-contained)
@@ -9,8 +10,7 @@ export default {
 		refresh: false,
 		username: null,
 		fail: false,
-		url:
-			"https://tranquil-cove-12072.herokuapp.com/https://iraqi-student.herokuapp.com/"
+		url: "https://tranquil-cove-12072.herokuapp.com/https://iraqi-student.herokuapp.com/"
 	},
 
 	mutations: {
@@ -76,8 +76,7 @@ export default {
 		},
 		// gets called whenever the site reloads.
 		// so I request access via refresh and keep the username in the site.
-		fetchTokens: ({ commit }) => {
-			// console.log(localStorage.getItem('access'));
+		fetchTokens: ({ commit, dispatch }) => {
 			if (localStorage.getItem("access") === "false") {
 				commit("updateStorage", {
 					access: false,
@@ -86,11 +85,19 @@ export default {
 					fail: false
 				})
 			} else {
-				commit("updateStorage", {
-					access: localStorage.getItem("access"),
-					refresh: localStorage.getItem("refresh"),
-					username: localStorage.getItem("username"),
-					fail: false
+				// to check if the refresh token is still valid or not!
+				shared.fetchAccessToken().then((res) => {
+					if (res.access) {
+						commit("updateStorage", {
+							access: localStorage.getItem("access"),
+							refresh: localStorage.getItem("refresh"),
+							username: localStorage.getItem("username"),
+							fail: false
+						})
+					} else {
+						dispatch("destroyToken")
+						router.push({ name: "logIn" })
+					}
 				})
 			}
 		}
