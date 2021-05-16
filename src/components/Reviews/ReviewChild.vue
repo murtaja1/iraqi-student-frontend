@@ -117,7 +117,7 @@ export default {
 				.sendReviewRating({
 					review: this.edit_text,
 					building: this.review.building,
-					sub_url: this.sub_url,
+					sub_url: `${this.sub_url}/${this.review.id}/`,
 					id: this.comment_id,
 					method: "PUT"
 				})
