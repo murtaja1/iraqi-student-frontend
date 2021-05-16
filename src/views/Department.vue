@@ -60,7 +60,7 @@
 								<b-th>جامعات أخرا تحتوي هذا القسم</b-th>
 								<b-td>
 									<span v-for="(u, index) in soruce.other_universities" :key="u"
-										><b-link :to="`/detail/universities/${universityId[index]}`">
+										><b-link :to="`/universities/${universityId[index]}`">
 											{{ u }}
 										</b-link></span
 									>
