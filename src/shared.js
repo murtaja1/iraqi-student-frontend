@@ -41,19 +41,19 @@ export default {
 		}
 	},
 
-	// fetchAccessToken: async() => {
-	//   const promise = await fetch(`${store.state.tokenModel.url}api/token/refresh/`, {
-	//     method: 'POST',
-	//     headers: {
-	//       'Content-Type': 'application/json'
-	//     },
-	//     body: JSON.stringify({
-	//       refresh: store.state.tokenModel.refresh
-	//     })
-	//   })
-	//   const data = await promise.json()
-	//   return data.access
-	// },
+	fetchAccessToken: async () => {
+		const promise = await fetch(`${store.state.tokenModel.url}api/token/refresh/`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				refresh: localStorage.getItem("refresh")
+			})
+		})
+		const data = await promise.json()
+		return data
+	},
 
 	sendReviewRating: async (content) => {
 		// access token request
