@@ -26,11 +26,7 @@
 				<br /><small>(تأكد من الإملاء)</small>
 			</p>
 			<b-list-group class="groub">
-				<b-list-group-item
-					class="nn bg-black"
-					v-for="(url, index) in urls"
-					:key="index"
-					align="right"
+				<b-list-group-item class="bg-black" v-for="(url, index) in urls" :key="index" align="right"
 					><b-link :to="url" class="text-dark" @click="close">{{
 						names[index]
 					}}</b-link></b-list-group-item
@@ -75,13 +71,13 @@ export default {
 						this.loading = false
 						let s = res.results[n].name
 						if (s.substr(0, 5) === "جامعة") {
-							this.urls.push(`/detail/universities/${res.results[n].id}`)
+							this.urls.push(`/universities/${res.results[n].id}`)
 							this.names.push(s)
 						} else if (s.substr(0, 7) === "الجامعة") {
-							this.urls.push(`/detail/universities/${res.results[n].id}`)
+							this.urls.push(`/universities/${res.results[n].id}`)
 							this.names.push(s)
 						} else if (s.substr(0, 4) === "كلية") {
-							this.urls.push(`/university/collage/${res.results[n].university}/${s}`)
+							this.urls.push(`/collage/${res.results[n].university}/${s}`)
 							this.names.push(res.results[n].university + " / " + s)
 						} else {
 							this.urls.push(`/department/${res.results[n].collage}/${s}`)

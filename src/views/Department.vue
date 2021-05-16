@@ -1,13 +1,13 @@
 <template>
 	<b-container align="right" fluid v-if="soruce !== ''">
-		<h3 class="mt-2">هندسة الحاسبات</h3>
-		<hr />
+		<h3 class="mt-2">{{ soruce.name }}</h3>
+		<hr class="col-sm-4 col-md-2 col-xl-2 col-6" align="right" />
 		<b-container fluid-md class="col-md-8">
 			<VueShowdown :markdown="soruce.description" flavor="github" />
 		</b-container>
 		<h6>معلومات اضافية حول القسم:</h6>
 		<hr class="col-sm-4 col-md-2 col-xl-2 col-6" align="right" />
-		<rating
+		<Rating
 			class="text-center"
 			:id="soruce.id"
 			:arb_name="soruce.name"
@@ -17,7 +17,6 @@
 		<b-row align-h="center" no-gutters>
 			<b-col class="col-md-8">
 				<div class="border">
-					<!-- Fixed: Makes all columns equal width (fixed layout table) -->
 					<b-table-simple responsive striped hover fixed>
 						<b-tbody>
 							<b-tr>
@@ -30,14 +29,13 @@
 							</b-tr>
 							<b-tr>
 								<b-th>التعيين</b-th>
-								<b-td v-if="soruce.central_designation === false">ليس مركزي</b-td>
-								<b-td v-if="soruce.central_designation === true">مركزي</b-td>
+								<!-- cos arbic it is on the opposite -->
+								<b-td>{{ soruce.central_designation === true ? "مركزي" : "ليس مركزي" }}</b-td>
 							</b-tr>
 
 							<b-tr v-for="n in 3" :key="n">
 								<b-th>{{ booleanFieldTitle[n - 1] }}</b-th>
-								<b-td v-if="soruce[booleanFieldContent[n - 1]] === false">لا يوجد</b-td>
-								<b-td v-if="soruce[booleanFieldContent[n - 1]] === true">موجود</b-td>
+								<b-td>{{ soruce[booleanFieldContent[n - 1]] === true ? "موجود" : "لا يوجد" }}</b-td>
 							</b-tr>
 
 							<b-tr>
@@ -60,7 +58,7 @@
 								<b-th>جامعات أخرا تحتوي هذا القسم</b-th>
 								<b-td>
 									<span v-for="(u, index) in soruce.other_universities" :key="u"
-										><b-link :to="`/detail/universities/${universityId[index]}`">
+										><b-link :to="`/universities/${universityId[index]}`">
 											{{ u }}
 										</b-link></span
 									>
@@ -96,12 +94,12 @@
 </template>
 
 <script>
-import rating from "../components/Rating"
+import Rating from "../components/Rating"
 import ReviewParent from "../components/Reviews/ReviewParent"
 import shared from "../shared"
 
 export default {
-	components: { rating, ReviewParent },
+	components: { Rating, ReviewParent },
 	data() {
 		return {
 			universityId: [],
@@ -128,28 +126,32 @@ export default {
 				"language_of_study"
 			],
 			years: ["2020", "2019", "2018", "2017", "2016"],
-			showCollages: false,
-			varints: ["info", "light", "light", "light", "light"],
 			soruce: ""
 		}
 	},
-	mounted() {
-		const n = this.$route.params
-		shared
-			.fetchData(
-				`department?collage__university__university_name=${n.university}
-    &collage_name=${n.collage}&name=${n.department}`
-			)
-			.then((res) => {
-				this.soruce = res.results[0]
+	methods: {
+		fetchData() {
+			const url = this.$route.params
+			shared
+				.fetchData(
+					`department?collage__university__university_name=${url.university}
+    &collage_name=${url.collage}&name=${url.department}`
+				)
+				.then((res) => {
+					this.soruce = res.results[0]
 
-				for (let u in this.soruce.other_universities) {
-					shared.fetchData(`universityid?name=${this.soruce.other_universities[u]}`).then((res) => {
-						// a bug
-						this.universityId.push(res.results[u].id)
-					})
-				}
-			})
+					for (let u in res.results[0].other_universities) {
+						shared
+							.fetchData(`universityid?name=${this.soruce.other_universities[u]}`)
+							.then((res) => {
+								this.universityId.push(res.results[0].id)
+							})
+					}
+				})
+		}
+	},
+	mounted() {
+		this.fetchData()
 	}
 }
 </script>

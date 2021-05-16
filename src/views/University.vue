@@ -30,7 +30,7 @@
 										<li>
 											<!-- i could use state to pass url and not this  -->
 											<b-link
-												:to="'/university/collage/' + soruce.name + '/' + collages[n - 1].name"
+												:to="'/collage/' + soruce.name + '/' + collages[n - 1].name"
 												class="linkColor"
 												>{{ collages[n - 1].name }}</b-link
 											>
@@ -47,6 +47,8 @@
 						:soruce="soruce"
 						:sideTableContent="sideTableContent"
 						:sideTableTitle="sideTableTitle"
+						sub_url="university_ratings?building__id="
+						:img="true"
 					/>
 				</b-col>
 			</b-form-row>
@@ -67,9 +69,9 @@
 </template>
 
 <script>
-import shared from "../../shared"
-import ReviewParent from "../../components/Reviews/ReviewParent"
-import Table from "./Table"
+import shared from "../shared"
+import ReviewParent from "../components/Reviews/ReviewParent"
+import Table from "../components/Table"
 export default {
 	components: {
 		ReviewParent,

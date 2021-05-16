@@ -1,13 +1,12 @@
 <template>
-	<b-container align="right" fluid v-if="soruce !== ''">
+	<b-container align="right" fluid v-if="soruce">
 		<h4 class="mt-2">
 			{{ soruce.name }} <small>({{ $route.params.university }})</small>
 		</h4>
 		<hr />
-		<!-- <b-img class="mb-3" rounded center fluid :src="soruce.image"> ddd </b-img> -->
 
 		<b-form-row>
-			<b-col align-self="stretch">
+			<b-col align-self="stretch" md="7" lg="8" xl="9">
 				<VueShowdown :markdown="soruce.description" flavor="github" />
 				<h6 class="mr-2">
 					الحدود الدنيا لاقسام {{ soruce.name }}
@@ -20,11 +19,9 @@
 
 				<hr class="col-sm-5 col-lg-4 col-xl-3 col-8 mr-2" align="right" />
 				<b-collapse visible appear id="collapse-3" class="border">
-					<b-table-simple responsive striped hover v-if="departments.length !== 0">
+					<b-table-simple responsive striped hover v-if="departments.length">
 						<b-thead>
 							<b-tr>
-								<!-- wider on small phones -->
-
 								<b-th>{{ soruce.name }}</b-th>
 								<b-th class="text-center" variant="secondary" colspan="5">الحدود الدنيا لسنة</b-th>
 							</b-tr>
@@ -35,9 +32,9 @@
 						</b-thead>
 						<b-tbody>
 							<b-tr v-for="n in soruce.departments_num" :key="n">
-								<b-td
+								<b-th
 									><b-link
-										class="linkColor"
+										class="linkColor department"
 										:to="
 											'/department/' +
 												$route.params.university +
@@ -47,7 +44,7 @@
 												departments[n - 1].name
 										"
 										>{{ departments[n - 1].name }}</b-link
-									></b-td
+									></b-th
 								>
 								<b-td v-for="i in years" :key="i">{{ departments[n - 1].sum[i] }} </b-td>
 							</b-tr>
@@ -59,67 +56,44 @@
 				</b-collapse>
 			</b-col>
 
-			<b-col align-self="start" md="4" lg="4" xl="3" class="border">
-				<h5 class="text-center text-white border pb-2 pt-1 box-top-bgc">
-					<font-awesome-icon icon="university" />
-					{{ soruce.name }}
-				</h5>
-				<Rating
-					class="text-center"
-					:id="soruce.id"
-					:arb_name="soruce.name"
+			<b-col sm="12" md="5" lg="4" xl="3" class="border mt-2 mb-2">
+				<Table
+					:soruce="soruce"
+					:sideTableContent="sideTableContent"
+					:sideTableTitle="sideTableTitle"
 					sub_url="collage_ratings?building__id="
+					:img="false"
 				/>
-				<b-table-simple responsive striped hover fixed>
-					<b-tbody class="text-right">
-						<b-tr v-for="n in 3" :key="n">
-							<b-th>{{ sideTableTitle[n - 1] }}</b-th>
-							<b-td>{{ sideTableContent[n - 1] }}</b-td>
-						</b-tr>
-						<b-tr>
-							<b-th>الجامعة</b-th>
-							<b-td
-								><b-link :to="'/detail/universities/' + soruce.university">{{
-									$route.params.university
-								}}</b-link></b-td
-							>
-						</b-tr>
-						<b-tr>
-							<b-th>الموقع</b-th>
-							<b-td><a :href="soruce.website">اظغط هنا</a></b-td>
-						</b-tr>
-					</b-tbody>
-				</b-table-simple>
 			</b-col>
+			<b-col sm="12" lg="6">
+				<h6 class="mt-2">مراجعات {{ soruce.name }}</h6>
+				<hr class="col-md-3 col-sm-3 col-6" align="right"/>
+				<ReviewParent
+					:building="soruce.id"
+					sub_url="collage_reviews"
+					empty1="مراجعات"
+					empty2="المراجعين"
+			/></b-col>
 		</b-form-row>
-		<h6 class="mt-2">مراجعات {{ soruce.name }}</h6>
-		<hr class="col-md-3 col-sm-3 col-6" align="right" />
-		<ReviewParent
-			class="col-md-6 mt-2"
-			:building="soruce.id"
-			sub_url="collage_reviews"
-			empty1="مراجعات"
-			empty2="المراجعين"
-		/>
 	</b-container>
 	<div class="mt-5 d-flex justify-content-center" v-else>
-		<b-spinner style="width: 5rem; height: 5rem;" variant="primary"></b-spinner>
+		<b-spinner class="spinner" variant="primary"></b-spinner>
 	</div>
 </template>
 
 <script>
 import shared from "@/shared"
-import Rating from "../components/Rating"
 import ReviewParent from "../components/Reviews/ReviewParent"
+import Table from "../components/Table"
 
 export default {
 	components: {
-		Rating,
+		Table,
 		ReviewParent
 	},
 	data() {
 		return {
-			sideTableTitle: ["التأسيس", "عدد الطلاب", "عدد الاقسام"],
+			sideTableTitle: ["عدد الطلاب", "عدد الاقسام"],
 			sideTableContent: [],
 			showCollages: true,
 			soruce: "",
@@ -143,12 +117,7 @@ export default {
 			.then((res) => {
 				this.soruce = res.results[0]
 
-				this.sideTableContent = [
-					this.soruce.establishment,
-					// this.$route.params.university,
-					this.soruce.students_num,
-					this.soruce.departments_num
-				]
+				this.sideTableContent = [this.soruce.students_num, this.soruce.departments_num]
 				shared
 					.fetchData(
 						`department_sum?collage__name=${url.collage}&collage__university__name=${url.university}&page_size=${this.soruce.departments_num}`
@@ -161,6 +130,13 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.spinner {
+	width: 5rem;
+	height: 5rem;
+}
+.department {
+	white-space: nowrap;
+}
 .box-top-bgc {
 	background-color: rgb(224, 134, 134);
 }
