@@ -133,23 +133,29 @@ export default {
 			soruce: ""
 		}
 	},
-	mounted() {
-		const n = this.$route.params
-		shared
-			.fetchData(
-				`department?collage__university__university_name=${n.university}
+	methods: {
+		fetchData() {
+			const n = this.$route.params
+			shared
+				.fetchData(
+					`department?collage__university__university_name=${n.university}
     &collage_name=${n.collage}&name=${n.department}`
-			)
-			.then((res) => {
-				this.soruce = res.results[0]
+				)
+				.then((res) => {
+					this.soruce = res.results[0]
 
-				for (let u in this.soruce.other_universities) {
-					shared.fetchData(`universityid?name=${this.soruce.other_universities[u]}`).then((res) => {
-						// a bug
-						this.universityId.push(res.results[u].id)
-					})
-				}
-			})
+					for (let u in res.results[0].other_universities) {
+						shared
+							.fetchData(`universityid?name=${this.soruce.other_universities[u]}`)
+							.then((res) => {
+								this.universityId.push(res.results[0].id)
+							})
+					}
+				})
+		}
+	},
+	mounted() {
+		this.fetchData()
 	}
 }
 </script>
