@@ -9,9 +9,9 @@
 		<hr class="col-sm-4 col-md-2 col-xl-2 col-6" align="right" />
 		<Rating
 			class="text-center"
-			:id="soruce.id"
 			:arb_name="soruce.name"
-			sub_url="department_ratings?building__id="
+			:sub_url="'department_ratings?building__id=' + soruce.id"
+			:building="soruce.id"
 		/>
 		<!-- to add border and center the col -->
 		<b-row align-h="center" no-gutters>

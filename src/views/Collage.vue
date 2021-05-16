@@ -61,7 +61,7 @@
 					:soruce="soruce"
 					:sideTableContent="sideTableContent"
 					:sideTableTitle="sideTableTitle"
-					sub_url="collage_ratings?building__id="
+					:sub_url="'collage_ratings?building__id=' + soruce.id"
 					:img="false"
 				/>
 			</b-col>

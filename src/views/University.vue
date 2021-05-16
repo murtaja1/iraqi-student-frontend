@@ -47,7 +47,7 @@
 						:soruce="soruce"
 						:sideTableContent="sideTableContent"
 						:sideTableTitle="sideTableTitle"
-						sub_url="university_ratings?building__id="
+						:sub_url="'university_ratings?building__id=' + soruce.id"
 						:img="true"
 					/>
 				</b-col>

@@ -8,7 +8,7 @@
 			<b-form-rating
 				id="popover"
 				locale="ar-EG"
-				class="col-12"
+				class="col-12 rating"
 				:value="ave_rating"
 				readonly
 				variant="warning"
@@ -66,7 +66,7 @@
 					>
 						ارسال
 					</b-button>
-					<b-button size="sm" variant="danger" @click="modalShow = false">
+					<b-button size="sm" variant="danger" @click=";(modalShow = false), (rate = 0)">
 						ألغاء
 					</b-button>
 				</b-col></b-form-row
@@ -89,16 +89,16 @@ export default {
 		}
 	},
 	props: {
-		id: Number,
 		sub_url: String,
-		arb_name: String
+		arb_name: String,
+		building: Number
 	},
 	computed: mapState({
 		refresh: (state) => state.tokenModel.refresh
 	}),
 	methods: {
 		fetchAveRating() {
-			shared.fetchData(`${this.sub_url + this.id}&page_size=1`).then((res) => {
+			shared.fetchData(`${this.sub_url}&page_size=1`).then((res) => {
 				// in case no results comes back.
 				if (res.count) {
 					this.ave_rating = res.results[0].ave_rating
@@ -115,9 +115,8 @@ export default {
 			shared
 				.sendReviewRating({
 					rating: this.rate,
-					building: this.id,
+					building: this.building,
 					sub_url: this.sub_url,
-					id: this.id,
 					method: "POST"
 				})
 				.then((data) => {
@@ -152,5 +151,8 @@ export default {
 }
 .rating-font {
 	font-size: 10px;
+}
+.rating {
+	cursor: pointer;
 }
 </style>

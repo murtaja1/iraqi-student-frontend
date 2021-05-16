@@ -90,7 +90,7 @@ export default {
 		}
 
 		if (content.method === "POST" || content.method === "PUT") {
-			const promise = await fetch(`${store.state.tokenModel.url + content.sub_url + content.id}`, {
+			const promise = await fetch(`${store.state.tokenModel.url + content.sub_url}`, {
 				method: content.method,
 				headers: {
 					"Content-Type": "application/json",

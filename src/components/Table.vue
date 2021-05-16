@@ -6,7 +6,7 @@
 		</h5>
 		<b-img v-if="img" center :src="soruce.logo" :alt="soruce.name" height="150"></b-img>
 		<!-- could mix id with sub_url -->
-		<Rating class="text-center" :id="soruce.id" :arb_name="soruce.name" :sub_url="sub_url" />
+		<Rating class="text-center" :building="soruce.id" :arb_name="soruce.name" :sub_url="sub_url" />
 		<!-- remember to adjust the font of the table -->
 		<b-table-simple responsive striped hover>
 			<b-tbody class="text-right">
