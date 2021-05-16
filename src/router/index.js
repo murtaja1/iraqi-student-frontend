@@ -63,7 +63,7 @@ const routes = [
 		component: News
 	},
 	{
-		path: "/university/collage/:university/:collage",
+		path: "/collage/:university/:collage",
 		name: "collage",
 		component: collage
 	},

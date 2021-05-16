@@ -30,7 +30,7 @@
 										<li>
 											<!-- i could use state to pass url and not this  -->
 											<b-link
-												:to="'/university/collage/' + soruce.name + '/' + collages[n - 1].name"
+												:to="'/collage/' + soruce.name + '/' + collages[n - 1].name"
 												class="linkColor"
 												>{{ collages[n - 1].name }}</b-link
 											>
