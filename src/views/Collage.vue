@@ -4,7 +4,6 @@
 			{{ soruce.name }} <small>({{ $route.params.university }})</small>
 		</h4>
 		<hr />
-		<!-- <b-img class="mb-3" rounded center fluid :src="soruce.image"> ddd </b-img> -->
 
 		<b-form-row>
 			<b-col align-self="stretch">
@@ -60,36 +59,13 @@
 			</b-col>
 
 			<b-col align-self="start" md="4" lg="4" xl="3" class="border">
-				<h5 class="text-center text-white border pb-2 pt-1 box-top-bgc">
-					<font-awesome-icon icon="university" />
-					{{ soruce.name }}
-				</h5>
-				<Rating
-					class="text-center"
-					:id="soruce.id"
-					:arb_name="soruce.name"
+				<Table
+					:soruce="soruce"
+					:sideTableContent="sideTableContent"
+					:sideTableTitle="sideTableTitle"
 					sub_url="collage_ratings?building__id="
+					:img="false"
 				/>
-				<b-table-simple responsive striped hover fixed>
-					<b-tbody class="text-right">
-						<b-tr v-for="n in 3" :key="n">
-							<b-th>{{ sideTableTitle[n - 1] }}</b-th>
-							<b-td>{{ sideTableContent[n - 1] }}</b-td>
-						</b-tr>
-						<b-tr>
-							<b-th>الجامعة</b-th>
-							<b-td
-								><b-link :to="'/detail/universities/' + soruce.university">{{
-									$route.params.university
-								}}</b-link></b-td
-							>
-						</b-tr>
-						<b-tr>
-							<b-th>الموقع</b-th>
-							<b-td><a :href="soruce.website">اظغط هنا</a></b-td>
-						</b-tr>
-					</b-tbody>
-				</b-table-simple>
 			</b-col>
 		</b-form-row>
 		<h6 class="mt-2">مراجعات {{ soruce.name }}</h6>
@@ -109,17 +85,17 @@
 
 <script>
 import shared from "@/shared"
-import Rating from "../components/Rating"
 import ReviewParent from "../components/Reviews/ReviewParent"
+import Table from "../components/Table"
 
 export default {
 	components: {
-		Rating,
+		Table,
 		ReviewParent
 	},
 	data() {
 		return {
-			sideTableTitle: ["التأسيس", "عدد الطلاب", "عدد الاقسام"],
+			sideTableTitle: ["عدد الطلاب", "عدد الاقسام"],
 			sideTableContent: [],
 			showCollages: true,
 			soruce: "",
@@ -143,12 +119,7 @@ export default {
 			.then((res) => {
 				this.soruce = res.results[0]
 
-				this.sideTableContent = [
-					this.soruce.establishment,
-					// this.$route.params.university,
-					this.soruce.students_num,
-					this.soruce.departments_num
-				]
+				this.sideTableContent = [this.soruce.students_num, this.soruce.departments_num]
 				shared
 					.fetchData(
 						`department_sum?collage__name=${url.collage}&collage__university__name=${url.university}&page_size=${this.soruce.departments_num}`

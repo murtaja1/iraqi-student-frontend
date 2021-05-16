@@ -47,6 +47,8 @@
 						:soruce="soruce"
 						:sideTableContent="sideTableContent"
 						:sideTableTitle="sideTableTitle"
+						sub_url="university_ratings?building__id="
+						:img="true"
 					/>
 				</b-col>
 			</b-form-row>
@@ -67,9 +69,9 @@
 </template>
 
 <script>
-import shared from "../../shared"
-import ReviewParent from "../../components/Reviews/ReviewParent"
-import Table from "./Table"
+import shared from "../shared"
+import ReviewParent from "../components/Reviews/ReviewParent"
+import Table from "../components/Table"
 export default {
 	components: {
 		ReviewParent,

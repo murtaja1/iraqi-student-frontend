@@ -4,15 +4,9 @@
 			<font-awesome-icon icon="university" />
 			{{ soruce.name }}
 		</h5>
-		<b-img center :src="soruce.logo" :alt="soruce.name" height="150"></b-img>
+		<b-img v-if="img" center :src="soruce.logo" :alt="soruce.name" height="150"></b-img>
 		<!-- could mix id with sub_url -->
-		<Rating
-			class="text-center"
-			:id="soruce.id"
-			:arb_name="soruce.name"
-			building="university"
-			sub_url="university_ratings?building__id="
-		/>
+		<Rating class="text-center" :id="soruce.id" :arb_name="soruce.name" :sub_url="sub_url" />
 		<!-- remember to adjust the font of the table -->
 		<b-table-simple responsive striped hover>
 			<b-tbody class="text-right">
@@ -20,7 +14,7 @@
 					<b-th>التأسيس</b-th>
 					<b-td>{{ soruce.establishment }}</b-td>
 				</b-tr>
-				<b-tr>
+				<b-tr v-if="soruce.country !== undefined">
 					<b-th>البلد </b-th>
 					<b-td>
 						<b-img
@@ -32,37 +26,47 @@
 						><span class="pr-1">{{ soruce.country }}</span>
 					</b-td>
 				</b-tr>
-				<b-tr v-for="n in 4" :key="n">
+				<b-tr v-for="n in sideTableTitle.length" :key="n">
 					<b-th>{{ sideTableTitle[n - 1] }}</b-th>
 					<b-td>{{ sideTableContent[n - 1] }}</b-td>
 				</b-tr>
-
+				<b-tr v-if="soruce.university !== undefined">
+					<b-th>الجامعة</b-th>
+					<b-td
+						><b-link :to="'/universities/' + soruce.university">{{
+							$route.params.university
+						}}</b-link></b-td
+					>
+				</b-tr>
 				<b-tr>
 					<b-th>الموقع</b-th>
 					<b-td><a :href="soruce.website">اضغط هنا</a></b-td>
 				</b-tr>
 			</b-tbody>
 		</b-table-simple>
-	</div></template
->
+	</div>
+</template>
 
 <script>
-import Rating from "../../components/Rating"
+import Rating from "./Rating"
+
 export default {
 	components: {
 		Rating
 	},
-	props: { soruce: Object, sideTableTitle: Array, sideTableContent: Array }
+	props: {
+		soruce: Object,
+		sideTableTitle: Array,
+		sideTableContent: Array,
+		img: Boolean,
+		sub_url: String
+	}
 }
 </script>
 
 <style lang="scss" scoped>
 ::v-deep .table th {
 	width: 40%;
-}
-.img {
-	position: relative;
-	top: 5px;
 }
 .box-top-bgc {
 	background-color: rgb(224, 134, 134);
