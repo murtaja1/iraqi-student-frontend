@@ -54,7 +54,7 @@
 <script>
 import ReviewChild from "./ReviewChild"
 import { mapState } from "vuex"
-import shared from "../../shared"
+import helper from "../../helper"
 import Pagination from "../Pagination"
 import ReviewForm from "./ReviewForm"
 export default {
@@ -93,7 +93,7 @@ export default {
 			this.loading = true
 			// so the watch in pagin gets called
 			this.currentPage = page
-			shared
+			helper
 				.fetchData(`${this.sub_url}?building__id=${this.building}&page=${page}&page_size=6`)
 				.then((res) => {
 					this.reviews = res.results

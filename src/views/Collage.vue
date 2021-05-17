@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import shared from "@/shared"
+import helper from "@/helper"
 import ReviewParent from "../components/Reviews/ReviewParent"
 import Table from "../components/Table"
 
@@ -112,13 +112,13 @@ export default {
 	},
 	mounted() {
 		const url = this.$route.params
-		shared
+		helper
 			.fetchData(`collagesdetail?university__name=${url.university}&name=${url.collage}`)
 			.then((res) => {
 				this.soruce = res.results[0]
 
 				this.sideTableContent = [this.soruce.students_num, this.soruce.departments_num]
-				shared
+				helper
 					.fetchData(
 						`department_sum?collage__name=${url.collage}&collage__university__name=${url.university}&page_size=${this.soruce.departments_num}`
 					)

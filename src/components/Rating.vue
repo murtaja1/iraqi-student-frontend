@@ -77,7 +77,7 @@
 
 <script>
 import { mapState } from "vuex"
-import shared from "../shared"
+import helper from "../helper"
 
 export default {
 	data() {
@@ -98,7 +98,7 @@ export default {
 	}),
 	methods: {
 		fetchAveRating() {
-			shared.fetchData(`${this.sub_url}&page_size=1`).then((res) => {
+			helper.fetchData(`${this.sub_url}&page_size=1`).then((res) => {
 				// in case no results comes back.
 				if (res.count) {
 					this.ave_rating = res.results[0].ave_rating
@@ -112,7 +112,7 @@ export default {
 			this.loading = true
 			// same id in id and building.
 			// when the refresh token expire there may be an error.
-			shared
+			helper
 				.sendReviewRating({
 					rating: this.rate,
 					building: this.building,

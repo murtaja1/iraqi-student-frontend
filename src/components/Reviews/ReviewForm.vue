@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import shared from "../../shared"
+import helper from "../../helper"
 import { mapState } from "vuex"
 
 export default {
@@ -51,7 +51,7 @@ export default {
 	methods: {
 		formSumbit() {
 			this.loading = true
-			shared
+			helper
 				.sendReviewRating({
 					review: this.text,
 					building: this.building,

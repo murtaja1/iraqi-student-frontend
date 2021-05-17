@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import shared from "../shared"
+import helper from "../helper"
 import Pagination from "../components/Pagination"
 
 export default {
@@ -89,7 +89,7 @@ export default {
 			this.data = []
 			if (this.name !== "home") {
 				this.currentPage = page
-				shared.fetchData(this.name + `?page=${this.currentPage}&page_size=6`).then((res) => {
+				helper.fetchData(this.name + `?page=${this.currentPage}&page_size=6`).then((res) => {
 					this.homeDetail = [this.name]
 					this.data.push(res.results)
 					this.totalRows = res.count
@@ -98,9 +98,9 @@ export default {
 			} else {
 				this.homeDetail = ["news", "universities"]
 				// not using loop cos sometimes university get called before news
-				shared.fetchData(this.homeDetail[0] + "?page=1&page_size=6").then((res) => {
+				helper.fetchData(this.homeDetail[0] + "?page=1&page_size=6").then((res) => {
 					this.data.push(res.results)
-					shared.fetchData(this.homeDetail[1] + "?page=1&page_size=6").then((res) => {
+					helper.fetchData(this.homeDetail[1] + "?page=1&page_size=6").then((res) => {
 						this.data.push(res.results)
 						this.loading = false
 					})
@@ -109,7 +109,7 @@ export default {
 		},
 
 		getDate(last_updated) {
-			return shared.getArabDate(last_updated)
+			return helper.getArabDate(last_updated)
 		}
 	}
 }

@@ -1,5 +1,5 @@
 import router from "../router"
-import shared from "../shared"
+import helper from "../helper"
 
 export default {
 	// means every module is its own.(self-contained)
@@ -77,7 +77,7 @@ export default {
 		// gets called whenever the site reloads.
 		// so I request access via refresh and keep the username in the site.
 		fetchTokens: ({ commit, dispatch }) => {
-			if (localStorage.getItem("access") === "false") {
+			if (localStorage.access === "false") {
 				commit("updateStorage", {
 					access: false,
 					refresh: false,
@@ -85,13 +85,19 @@ export default {
 					fail: false
 				})
 			} else {
+				commit("updateStorage", {
+					access: localStorage.access,
+					refresh: localStorage.refresh,
+					username: localStorage.username,
+					fail: false
+				})
 				// to check if the refresh token is still valid or not!
-				shared.fetchAccessToken().then((res) => {
+				helper.fetchAccessToken().then((res) => {
 					if (res.access) {
 						commit("updateStorage", {
-							access: localStorage.getItem("access"),
-							refresh: localStorage.getItem("refresh"),
-							username: localStorage.getItem("username"),
+							access: localStorage.access,
+							refresh: localStorage.refresh,
+							username: localStorage.username,
 							fail: false
 						})
 					} else {

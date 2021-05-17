@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import shared from "../../shared"
+import helper from "../../helper"
 import store from "../../store"
 export default {
 	data() {
@@ -100,7 +100,7 @@ export default {
 	methods: {
 		deleteRview() {
 			this.deleting = true
-			shared
+			helper
 				.sendReviewRating({
 					sub_url: this.sub_url,
 					comment_id: this.comment_id,
@@ -113,7 +113,7 @@ export default {
 		},
 		formSumbit() {
 			this.editLoading = true
-			shared
+			helper
 				.sendReviewRating({
 					review: this.edit_text,
 					building: this.review.building,

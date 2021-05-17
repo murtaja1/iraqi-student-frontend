@@ -96,7 +96,7 @@
 <script>
 import Rating from "../components/Rating"
 import ReviewParent from "../components/Reviews/ReviewParent"
-import shared from "../shared"
+import helper from "../helper"
 
 export default {
 	components: { Rating, ReviewParent },
@@ -132,7 +132,7 @@ export default {
 	methods: {
 		fetchData() {
 			const url = this.$route.params
-			shared
+			helper
 				.fetchData(
 					`department?collage__university__university_name=${url.university}
     &collage_name=${url.collage}&name=${url.department}`
@@ -141,7 +141,7 @@ export default {
 					this.soruce = res.results[0]
 
 					for (let u in res.results[0].other_universities) {
-						shared
+						helper
 							.fetchData(`universityid?name=${this.soruce.other_universities[u]}`)
 							.then((res) => {
 								this.universityId.push(res.results[0].id)
