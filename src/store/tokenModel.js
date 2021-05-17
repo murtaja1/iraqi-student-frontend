@@ -85,6 +85,12 @@ export default {
 					fail: false
 				})
 			} else {
+				commit("updateStorage", {
+					access: localStorage.getItem("access"),
+					refresh: localStorage.getItem("refresh"),
+					username: localStorage.getItem("username"),
+					fail: false
+				})
 				// to check if the refresh token is still valid or not!
 				shared.fetchAccessToken().then((res) => {
 					if (res.access) {
