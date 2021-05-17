@@ -9,6 +9,7 @@ import register from "../views/Register.vue"
 import Forgot from "../views/Password/Forgot"
 import Reset from "../views/Password/Reset"
 import News from "../views/News"
+import NotFound from "../views/NotFound"
 // remember transition for router.
 
 Vue.use(VueRouter)
@@ -71,6 +72,11 @@ const routes = [
 		path: "/department/:university/:collage/:department",
 		name: "department",
 		component: department
+	},
+	{
+		path: "/:pathMatch(.*)*",
+		name: "notFound",
+		component: NotFound
 	}
 ]
 
