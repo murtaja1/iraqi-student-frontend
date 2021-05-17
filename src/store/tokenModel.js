@@ -1,5 +1,5 @@
 import router from "../router"
-import shared from "../shared"
+import helper from "../helper"
 
 export default {
 	// means every module is its own.(self-contained)
@@ -92,7 +92,7 @@ export default {
 					fail: false
 				})
 				// to check if the refresh token is still valid or not!
-				shared.fetchAccessToken().then((res) => {
+				helper.fetchAccessToken().then((res) => {
 					if (res.access) {
 						commit("updateStorage", {
 							access: localStorage.access,

@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import shared from "../shared"
+import helper from "../helper"
 export default {
 	data() {
 		return {
@@ -63,7 +63,7 @@ export default {
 			if (this.text) {
 				this.loading = true
 				this.noResult = true
-				shared.fetchData(`search?q=${this.text}&page_size=100`).then((res) => {
+				helper.fetchData(`search?q=${this.text}&page_size=100`).then((res) => {
 					this.urls = []
 					this.names = []
 					var n

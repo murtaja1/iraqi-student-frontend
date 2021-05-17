@@ -19,7 +19,7 @@
 ></template>
 
 <script>
-import shared from "../shared"
+import helper from "../helper"
 import ReviewParent from "../components/Reviews/ReviewParent"
 export default {
 	data() {
@@ -32,7 +32,7 @@ export default {
 	},
 	methods: {
 		fetchData() {
-			shared.fetchData("news" + "/" + this.$route.params.id).then((res) => {
+			helper.fetchData("news" + "/" + this.$route.params.id).then((res) => {
 				this.soruce = res
 			})
 		}
