@@ -10,7 +10,7 @@ export default {
 		refresh: false,
 		username: null,
 		fail: false,
-		url: "https://tranquil-cove-12072.herokuapp.com/https://iraqi-student.herokuapp.com/"
+		url: "http://3.144.140.234:8000/"
 	},
 
 	mutations: {
